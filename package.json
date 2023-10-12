@@ -11,6 +11,7 @@
     "url": "https://github.com/htmlacademy-javascript/2372159-kekstagram-30/issues"
   },
   "devDependencies": {
+    "cypress": "^13.3.1",
     "eslint": "8.48.0",
     "eslint-config-htmlacademy": "9.1.1",
     "vite": "4.4.9"
