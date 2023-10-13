@@ -44,6 +44,7 @@ function isPalindrome1(str = '') {
   }
 }
 
+/*
 function isPalindrome2(str = '') {
   const normalizedStr = str.toString().replaceAll(' ', '').toLowerCase();
   let reversedStr = '';
@@ -52,6 +53,7 @@ function isPalindrome2(str = '') {
   }
   return normalizedStr === reversedStr;
 }
+*/
 
 //console.log(isPalindrome1('Лёша на полке клопа нашёл'));
 
@@ -75,7 +77,7 @@ function isPalindrome2(str = '') {
 // cast to string modified
 
 function strMk1(str = '') {
-  const result = str.toString().split('').filter(char => !isNaN(char) && char !== ' ').join('');
+  const result = str.toString().split('').filter((char) => !isNaN(char) && char !== ' ').join('');
   return result === '' || isNaN(result) ? NaN : Number(result);
 }
 
@@ -87,5 +89,5 @@ function strMk1(str = '') {
 
 //npx cypress open
 
-module.exports = { checkLength, isPalindrome1, strMk1 };
+myModule1.exports = { checkLength, isPalindrome1, strMk1 };
 
