@@ -89,5 +89,5 @@ function strMk1(str = '') {
 
 //npx cypress open
 
-myModule1.exports = { checkLength, isPalindrome1, strMk1 };
+export { checkLength, isPalindrome1, strMk1 };
 
