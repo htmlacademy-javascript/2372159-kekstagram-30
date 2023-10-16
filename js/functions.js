@@ -12,7 +12,7 @@
 имяФункции('проверяемая строка', 10); // false
 */
 
-function checkLength(str = '', limit = 0) {
+function isLengthValid(str = '', limit = 0) {
   if (str.length <= limit) {
     return true;
   } else {
@@ -20,7 +20,7 @@ function checkLength(str = '', limit = 0) {
   }
 }
 
-//console.log(checkLength('Alles wird gut sein', 18));
+//console.log(isLengthValid('Alles wird gut sein', 18));
 
 
 /*
@@ -76,7 +76,7 @@ function isPalindrome2(str = '') {
 
 // cast to string modified
 
-function strMk1(str = '') {
+function filterNumbers(str = '') {
   const result = str.toString().split('').filter((char) => !isNaN(char) && char !== ' ').join('');
   return result === '' || isNaN(result) ? NaN : Number(result);
 }
@@ -88,6 +88,7 @@ function strMk1(str = '') {
 //module.exports = module.exports = { isPalindrome1 };
 
 //npx cypress open
+//npm run lint
 
-export { checkLength, isPalindrome1, strMk1 };
+export { isLengthValid as checkLength, isPalindrome1, filterNumbers as strMk1 };
 

@@ -1,5 +1,7 @@
 
-const { checkLength, isPalindrome1, strMk1 } = require('../../js/functions');
+//const { checkLength, isPalindrome1, strMk1 } = require('../../js/functions');
+import { checkLength, isPalindrome1, strMk1 } from '../../js/functions';
+
 
 describe('template spec', () => {
   it('passes', () => {
