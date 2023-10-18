@@ -38,6 +38,8 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
   5.4) Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
 */
 
+import { generateComments } from './comments.js';
+
 // Ограничение на количество фотографий
 const photosLimit = 25;
 
@@ -49,8 +51,7 @@ const generateId = () => {
     throw new Error('Maximum id value exceeded. Cannot generate more ids.');
   }
   currentId++;
-  const id = currentId;
-  return id;
+  return currentId;
 };
 
 /** пункт 2), генерация url */
@@ -66,19 +67,23 @@ const generateUrl = () => {
 
 const generateDescription = () => `Описание фотографии №${currentId}`;
 
+/** пункт 4), генерация likes */
+
+const generateLikes = () => Math.floor(Math.random() * (200 - 15 + 1)) + 15;
+
+/** пункт 5), генерация comments */
 
 // далее создание массива фотографий
-/** объект - фотография */
-const photo = {
-  id: generateId(),
-  url: generateUrl(),
-  description: generateDescription(),
-  //likes: Math.floor(Math.random() * (200 - 15 + 1)) + 15,
-  //comments: generateComments(Math.floor(Math.random() * 30))
+const generatePhoto = () => {
+  const photo = {
+    id: generateId(),
+    url: generateUrl(),
+    description: generateDescription(),
+    likes: generateLikes(),
+    comments: generateComments()
+  };
+  return photo;
 };
-
-/** генерация объекта */
-const generatePhoto = () => photo;
 
 const photosArray = []; // Создание пустого массива
 
@@ -90,7 +95,8 @@ const addPhoto = (array, photoCurrent) => {
 /** генерация массива фотографий */
 const generatePhotosArray = () => {
   for (let i = 0; i < photosLimit; i++) {
-    addPhoto(photosArray, generatePhoto());
+    const currentPhoto = generatePhoto();
+    addPhoto(photosArray, currentPhoto);
   }
 };
 
@@ -100,5 +106,13 @@ generatePhotosArray();
 for (let i = 0; i < photosArray.length; i++) {
   //eslint-disable-next-line
   console.log(photosArray[i]);
+  //eslint-disable-next-line
+  console.log(photosArray[i]['comments']);
+  /*
+  for (let z = 0; z < photosArray[i].length; i++) {
+    //eslint-disable-next-line
+    console.log(photosArray[i][z]);
+  }
+  */
 }
 

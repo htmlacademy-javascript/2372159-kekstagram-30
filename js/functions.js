@@ -89,6 +89,7 @@ function filterNumbers(str = '') {
 
 //npx cypress open
 //npm run lint
+//npm run start
 
 export { isLengthValid as checkLength, isPalindrome1, filterNumbers as strMk1 };
 
