@@ -38,11 +38,14 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
   5.4) Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
 */
 
+// Ограничение на количество фотографий
+const photosLimit = 25;
+
 /** пункт 1), генерация id */
 
 let currentId = 0;
 const generateId = () => {
-  if (currentId >= 25) {
+  if (currentId >= photosLimit) {
     throw new Error('Maximum id value exceeded. Cannot generate more ids.');
   }
   currentId++;
@@ -50,27 +53,52 @@ const generateId = () => {
   return id;
 };
 
-/** генерация объекта */
+/** пункт 2), генерация url */
 
+let currentUrl;
+const generateUrl = () => {
+  currentUrl = `photos/${currentId}.jpg`;
+  return currentUrl;
+};
+
+
+/** пункт 3), генерация description */
+
+const generateDescription = () => `Описание фотографии №${currentId}`;
+
+
+// далее создание массива фотографий
+/** объект - фотография */
 const photo = {
   id: generateId(),
-  //url: `photos/${Math.floor(Math.random() * 25) + 1}.jpg`,
-  //description: "This is a beautiful photo.",
+  url: generateUrl(),
+  description: generateDescription(),
   //likes: Math.floor(Math.random() * (200 - 15 + 1)) + 15,
   //comments: generateComments(Math.floor(Math.random() * 30))
 };
 
+/** генерация объекта */
+const generatePhoto = () => photo;
+
 const photosArray = []; // Создание пустого массива
 
+/** функция добавления фотографии в массив */
 const addPhoto = (array, photoCurrent) => {
   array.push(photoCurrent);
 };
 
-const photo1 = photo;
+/** генерация массива фотографий */
+const generatePhotosArray = () => {
+  for (let i = 0; i < photosLimit; i++) {
+    addPhoto(photosArray, generatePhoto());
+  }
+};
 
-addPhoto(photosArray, photo1);
-
-//eslint-disable-next-line
-console.log(photosArray); // Вывод массива фотографий
-
+/** запуск основной функции */
+generatePhotosArray();
+// Вывод массива фотографий
+for (let i = 0; i < photosArray.length; i++) {
+  //eslint-disable-next-line
+  console.log(photosArray[i]);
+}
 
