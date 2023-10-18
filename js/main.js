@@ -39,18 +39,26 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 */
 
 import { generateComments } from './comments.js';
+import { getRandomInt } from './common_functions.js';
 
 // Ограничение на количество фотографий
-const photosLimit = 3;
+const photosLimit = 25;
 
 /** пункт 1), генерация id */
 
-let currentId = 0;
+const idsArray = []; // Создание пустого массива идентификаторов опубликованной(ых) фотографии(ий)
+for (let i = 1; i <= photosLimit; i++) {
+  idsArray.push(i);
+}
+
+let currentId;
+
 const generateId = () => {
-  if (currentId >= photosLimit) {
-    throw new Error('Maximum id value exceeded. Cannot generate more ids.');
-  }
-  currentId++;
+  const minId = 1;
+  const maxId = idsArray.length;
+  const randomNumber = getRandomInt(minId, maxId);
+  currentId = idsArray[randomNumber - 1]; //поправка на индекс
+  idsArray.slice(randomNumber - 1, 1); //поправка на индекс
   return currentId;
 };
 
@@ -69,7 +77,11 @@ const generateDescription = () => `Описание фотографии №${cu
 
 /** пункт 4), генерация likes */
 
-const generateLikes = () => Math.floor(Math.random() * (200 - 15 + 1)) + 15;
+const generateLikes = () => {
+  const minLikes = 1;
+  const maxLikes = 200;
+  return getRandomInt(minLikes, maxLikes);
+};
 
 /** пункт 5), генерация comments */
 
@@ -103,16 +115,12 @@ const generatePhotosArray = () => {
 /** запуск основной функции */
 generatePhotosArray();
 // Вывод массива фотографий
+/*
 for (let i = 0; i < photosArray.length; i++) {
   //eslint-disable-next-line
   console.log(photosArray[i]);
   //eslint-disable-next-line
   //console.log(photosArray[i]['comments'].length);
-  /*
-  for (let z = 0; z < photosArray[i].length; i++) {
-    //eslint-disable-next-line
-    console.log(photosArray[i][z]);
-  }
-  */
 }
+*/
 
