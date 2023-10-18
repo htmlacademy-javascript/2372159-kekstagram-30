@@ -41,7 +41,7 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 import { generateComments } from './comments.js';
 
 // Ограничение на количество фотографий
-const photosLimit = 25;
+const photosLimit = 3;
 
 /** пункт 1), генерация id */
 
@@ -107,7 +107,7 @@ for (let i = 0; i < photosArray.length; i++) {
   //eslint-disable-next-line
   console.log(photosArray[i]);
   //eslint-disable-next-line
-  console.log(photosArray[i]['comments']);
+  //console.log(photosArray[i]['comments'].length);
   /*
   for (let z = 0; z < photosArray[i].length; i++) {
     //eslint-disable-next-line

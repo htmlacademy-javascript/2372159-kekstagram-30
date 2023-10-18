@@ -24,13 +24,38 @@
 */
 
 // Ограничение на количество фотографий
-const photosLimit = 25;
+const commentsLimit = 30;
 
 
 /** пункт 5.1), генерация commentId */
 
+const idsArray = []; // Создание пустого массива Ids
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const generateCommentId = () => {
-  return 100;
+  const minId = 1;
+  const maxId = 200;
+  let counter = 0;
+  let isUnique = false;
+  let randomNumber;
+  if (idsArray.length >= maxId) {
+    throw new Error('Maximum comments ids number is exceeded. Cannot generate more ids.');
+  }
+  while (!isUnique) {
+    randomNumber = getRandomInt(minId, maxId);
+    isUnique = !idsArray.includes(randomNumber);
+    counter++;
+    if (counter > maxId * 100) {
+      throw new Error('Something is wrong with comment id generation.');
+    }
+  }
+  idsArray.push(randomNumber);
+  return randomNumber;
 };
 
 /** 5.2) avatar */
@@ -49,7 +74,7 @@ const generateName = () => {
 };
 
 /** генерация объекта */
-const generateComments = () => {
+const generateComment = () => {
   const comment = {
     id: generateCommentId(),
     avatar: generateAvatar(),
@@ -57,6 +82,26 @@ const generateComments = () => {
     name: generateName(),
   };
   return comment;
+};
+
+/** функция добавления комментария в массив */
+const addComment = (array, commentCurrent) => {
+  array.push(commentCurrent);
+};
+
+
+/** генерация массива комментариев */
+const generateComments = () => {
+  const commentsArray = []; // Создание пустого массива комментариев
+
+  const randomCommentsNumber = Math.floor(Math.random() * commentsLimit + 1); // Генерация числа от 0 до 30 (commentsLimit)
+
+  for (let i = 0; i < randomCommentsNumber; i++) {
+    const currentComment = generateComment();
+    addComment(commentsArray, currentComment);
+  }
+  idsArray.length = 0;
+  return commentsArray;
 };
 
 
