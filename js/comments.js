@@ -28,6 +28,26 @@ import { getRandomInt } from './common_functions.js';
 // Ограничение на количество фотографий
 const commentsLimit = 30;
 
+// Массив имен авторов комментариев
+const namesArray = [
+  'Имя 1',
+  'Имя 2',
+  'Имя 3',
+  'Имя 4',
+  'Имя 5',
+  'Имя 6',
+];
+
+// массив сообщений
+const messagesArrayBasic = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?'
+];
+
 
 /** пункт 5.1), генерация commentId */
 
@@ -48,38 +68,9 @@ const generateCommentId = () => {
   return currentCommentId;
 };
 
-/*
-const generateCommentId_alt = () => {
-  const minId = 1;
-  const maxId = 200;
-  let counter = 0;
-  let isUnique = false;
-  let randomNumber;
-  if (idsArray.length >= maxId) {
-    throw new Error('Maximum comments ids number is exceeded. Cannot generate more ids.');
-  }
-  while (!isUnique) {
-    randomNumber = getRandomInt(minId, maxId);
-    isUnique = !idsArray.includes(randomNumber);
-    counter++;
-    if (counter > maxId * 100) {
-      throw new Error('Something is wrong with comment id generation.');
-    }
-  }
-  idsArray.push(randomNumber);
-  return randomNumber;
-};
-*/
 
 /** 5.2) avatar */
-/*
-const avatarsArray = []; // Создание пустого массива avatars
-const refreshAvatars = () => {
-  for (let i = 1; i <= commentsLimit; i++) {
-    avatarsArray.push(i);
-  }
-};
-*/
+
 
 const generateAvatar = () => {
   const minId = 1;
@@ -90,17 +81,9 @@ const generateAvatar = () => {
 
 /** 5.3) message */
 
-const messagesArrayBasic = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?'
-];
 
 const generateMessage = () => {
-  const messagesArrayCurrent = messagesArrayBasic;
+  const messagesArrayCurrent = [...messagesArrayBasic];
   const numberOfMessages = Math.floor(Math.random() * 2) + 1;
   let newMessage = '';
   const spaceBar = ' ';
@@ -118,15 +101,6 @@ const generateMessage = () => {
 };
 
 /** 5.4) generateName */
-
-const namesArray = [
-  'Имя 1',
-  'Имя 2',
-  'Имя 3',
-  'Имя 4',
-  'Имя 5',
-  'Имя 6',
-];
 
 const generateName = () => {
   const minId = 1;
@@ -146,11 +120,6 @@ const generateComment = () => {
   return comment;
 };
 
-/** функция добавления комментария в массив */
-const addComment = (array, commentCurrent) => {
-  array.push(commentCurrent);
-};
-
 
 /** генерация массива комментариев */
 const generateComments = () => {
@@ -162,7 +131,8 @@ const generateComments = () => {
 
   for (let i = 0; i < randomCommentsNumber; i++) {
     const currentComment = generateComment();
-    addComment(commentsArray, currentComment);
+    commentsArray.push(currentComment);
+    //addComment(commentsArray, currentComment);
   }
   return commentsArray;
 };

@@ -99,16 +99,12 @@ const generatePhoto = () => {
 
 const photosArray = []; // Создание пустого массива
 
-/** функция добавления фотографии в массив */
-const addPhoto = (array, photoCurrent) => {
-  array.push(photoCurrent);
-};
-
 /** генерация массива фотографий */
 const generatePhotosArray = () => {
   for (let i = 0; i < photosLimit; i++) {
     const currentPhoto = generatePhoto();
-    addPhoto(photosArray, currentPhoto);
+    photosArray.push(currentPhoto);
+    //addPhoto(photosArray, currentPhoto);
   }
   return photosArray;
 };
@@ -128,6 +124,14 @@ for (let i = 0; i < photosArray.length; i++) {
 */
 
 generatePhotosArray();
+
+for (let i = 0; i < photosArray.length; i++) {
+  //eslint-disable-next-line
+  console.log(photosArray[i]);
+
+  //eslint-disable-next-line
+  //console.log(photosArray[i]['comments'].length);
+}
 
 export { generatePhotosArray };
 
