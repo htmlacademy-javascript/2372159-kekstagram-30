@@ -31,9 +31,25 @@ const commentsLimit = 30;
 
 /** пункт 5.1), генерация commentId */
 
-const idsArray = []; // Создание пустого массива Ids
+const commentsIdsArray = []; // Создание пустого массива Ids
+const commentsIdLimit = 1000;
+const refreshCommentsIdsArray = () => {
+  for (let i = 1; i <= commentsIdLimit; i++) {
+    commentsIdsArray.push(i);
+  }
+};
 
 const generateCommentId = () => {
+  const minId = 1;
+  const maxId = commentsIdsArray.length;
+  const randomNumber = getRandomInt(minId, maxId);
+  const currentCommentId = commentsIdsArray[randomNumber - 1]; //поправка на индекс
+  commentsIdsArray.splice(randomNumber - 1, 1); //поправка на индекс
+  return currentCommentId;
+};
+
+/*
+const generateCommentId_alt = () => {
   const minId = 1;
   const maxId = 200;
   let counter = 0;
@@ -53,21 +69,22 @@ const generateCommentId = () => {
   idsArray.push(randomNumber);
   return randomNumber;
 };
+*/
 
 /** 5.2) avatar */
-
+/*
 const avatarsArray = []; // Создание пустого массива avatars
 const refreshAvatars = () => {
   for (let i = 1; i <= commentsLimit; i++) {
     avatarsArray.push(i);
   }
 };
+*/
 
 const generateAvatar = () => {
   const minId = 1;
-  const maxId = avatarsArray.length;
+  const maxId = 6;
   const randomNumber = getRandomInt(minId, maxId);
-  avatarsArray.slice(randomNumber - 1, 1); //поправка на индекс
   return `photos/${randomNumber}.jpg`;
 };
 
@@ -92,7 +109,7 @@ const generateMessage = () => {
     const maxId = messagesArrayCurrent.length;
     const randomMessageNumber = getRandomInt(minId, maxId);
     newMessage += spaceBar + messagesArrayCurrent[randomMessageNumber - 1]; //поправка на индекс
-    messagesArrayCurrent.slice(randomMessageNumber - 1, 1); //поправка на индекс
+    messagesArrayCurrent.splice(randomMessageNumber - 1, 1); //поправка на индекс
   }
 
   newMessage = newMessage.trim();
@@ -141,12 +158,12 @@ const generateComments = () => {
 
   const randomCommentsNumber = Math.floor(Math.random() * commentsLimit + 1); // Генерация числа от 0 до 30 (commentsLimit)
 
+  refreshCommentsIdsArray();
+
   for (let i = 0; i < randomCommentsNumber; i++) {
-    refreshAvatars();
     const currentComment = generateComment();
     addComment(commentsArray, currentComment);
   }
-  idsArray.length = 0;
   return commentsArray;
 };
 

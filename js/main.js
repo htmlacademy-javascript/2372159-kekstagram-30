@@ -58,7 +58,7 @@ const generateId = () => {
   const maxId = idsArray.length;
   const randomNumber = getRandomInt(minId, maxId);
   currentId = idsArray[randomNumber - 1]; //поправка на индекс
-  idsArray.slice(randomNumber - 1, 1); //поправка на индекс
+  idsArray.splice(randomNumber - 1, 1); //поправка на индекс
   return currentId;
 };
 
@@ -110,17 +110,27 @@ const generatePhotosArray = () => {
     const currentPhoto = generatePhoto();
     addPhoto(photosArray, currentPhoto);
   }
+  return photosArray;
 };
 
 /** запуск основной функции */
-generatePhotosArray();
+//generatePhotosArray();
 // Вывод массива фотографий
 /*
 for (let i = 0; i < photosArray.length; i++) {
   //eslint-disable-next-line
   console.log(photosArray[i]);
+
   //eslint-disable-next-line
   //console.log(photosArray[i]['comments'].length);
 }
+
 */
 
+generatePhotosArray();
+
+export { generatePhotosArray };
+
+//npx cypress open
+//npm run lint
+//npm run start
