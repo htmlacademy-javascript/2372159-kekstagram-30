@@ -1,4 +1,6 @@
 /*
++ 5.14 Модуляция
+
 https://up.htmlacademy.ru/javascript/30/tasks/9
 4.16. Больше деталей
 
