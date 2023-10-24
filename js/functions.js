@@ -87,9 +87,63 @@ function filterNumbers(str = '') {
 //module.exports = { checkLength };
 //module.exports = module.exports = { isPalindrome1 };
 
+
+//#5.16. Функции возвращаются
+/*
+Напишите функцию, которая принимает время начала и конца рабочего дня, а также время старта и продолжительность встречи в минутах и возвращает true, если встреча не выходит за рамки рабочего дня, и false, если выходит.
+
+Время указывается в виде строки в формате часы:минуты. Для указания часов и минут могут использоваться как две цифры, так и одна. Например, 8 часов 5 минут могут быть указаны по-разному: 08:05, 8:5, 08:5 или 8:05.
+
+Продолжительность задаётся числом. Гарантируется, что и рабочий день, и встреча укладываются в одни календарные сутки.
+*/
+
+const convertTime = (str1) => {
+  const c1 = ':';
+
+  const dDawnArray = str1.split(c1);
+  const hour = dDawnArray[0];
+  const minute = dDawnArray[1];
+
+  const year = 2023;
+  const month = 0; // Январь (отсчет месяцев начинается с 0)
+  const date = 15; // число
+  const hours = hour;
+  const minutes = minute;
+  const seconds = 0;
+  const milliseconds = 0;
+
+  const myDate = new Date();
+  myDate.setFullYear(year);
+  myDate.setMonth(month);
+  myDate.setDate(date);
+  myDate.setHours(hours);
+  myDate.setMinutes(minutes);
+  myDate.setSeconds(seconds);
+  myDate.setMilliseconds(milliseconds);
+  //console.log(myDate.getTime());
+  return myDate;
+};
+
+const isMeetingWithinWorkingHours = (dDawn, dEnd, mStart, mLasting) => {
+  let isPossible = true;
+  const dDawnDate = convertTime(dDawn);
+  const dEndDate = convertTime(dEnd);
+  const mStartDate = convertTime(mStart);
+  const mEndDate = new Date(mStartDate.setMinutes(mStartDate.getMinutes() + mLasting));
+  //console.log(mEndDate.getTime());
+  if (dDawnDate.getTime() > mStartDate.getTime()){
+    isPossible = false;
+  }
+  if (mEndDate.getTime() > dEndDate.getTime()) {
+    isPossible = false;
+  }
+  return isPossible;
+};
+
 //npx cypress open
 //npm run lint
 //npm run start
 
-export { isLengthValid as checkLength, isPalindrome1, filterNumbers as strMk1 };
+
+export { isLengthValid as checkLength, isPalindrome1, filterNumbers as strMk1, isMeetingWithinWorkingHours };
 
