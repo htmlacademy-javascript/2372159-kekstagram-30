@@ -42,6 +42,8 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 
 import { generateComments } from './comments.js';
 import { getRandomInt } from './common_functions.js';
+import { renderTiles } from './tiles.js';
+
 
 // Ограничение на количество фотографий
 const photosLimit = 25;
@@ -125,15 +127,16 @@ for (let i = 0; i < photosArray.length; i++) {
 
 */
 
-generatePhotosArray();
 
-for (let i = 0; i < photosArray.length; i++) {
-  //eslint-disable-next-line
-  console.log(photosArray[i]);
+renderTiles(generatePhotosArray());
 
-  //eslint-disable-next-line
-  //console.log(photosArray[i]['comments'].length);
-}
+// for (let i = 0; i < photosArray.length; i++) {
+//   //eslint-disable-next-line
+//   console.log(photosArray[i]);
+
+//   //eslint-disable-next-line
+//   //console.log(photosArray[i]['comments'].length);
+// }
 
 export { generatePhotosArray };
 
