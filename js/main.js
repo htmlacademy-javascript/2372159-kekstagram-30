@@ -113,30 +113,11 @@ const generatePhotosArray = () => {
   return photosArray;
 };
 
-/** запуск основной функции */
-//generatePhotosArray();
-// Вывод массива фотографий
-/*
-for (let i = 0; i < photosArray.length; i++) {
-  //eslint-disable-next-line
-  console.log(photosArray[i]);
 
-  //eslint-disable-next-line
-  //console.log(photosArray[i]['comments'].length);
-}
+generatePhotosArray();
 
-*/
+renderTiles(photosArray);
 
-
-renderTiles(generatePhotosArray());
-
-// for (let i = 0; i < photosArray.length; i++) {
-//   //eslint-disable-next-line
-//   console.log(photosArray[i]);
-
-//   //eslint-disable-next-line
-//   //console.log(photosArray[i]['comments'].length);
-// }
 
 export { generatePhotosArray };
 

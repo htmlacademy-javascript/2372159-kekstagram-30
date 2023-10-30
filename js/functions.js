@@ -81,11 +81,6 @@ function filterNumbers(str = '') {
   return result === '' || isNaN(result) ? NaN : Number(result);
 }
 
-//console.log(strMk1('а я томат'));
-//console.log(!isNaN(' '));
-
-//module.exports = { checkLength };
-//module.exports = module.exports = { isPalindrome1 };
 
 
 //#5.16. Функции возвращаются
