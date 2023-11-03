@@ -43,6 +43,7 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 import { generateComments } from './comments.js';
 import { getRandomInt } from './common_functions.js';
 import { renderTiles } from './tiles.js';
+import { renderGallery } from './fModule1.js';
 
 
 // Ограничение на количество фотографий
@@ -117,6 +118,8 @@ const generatePhotosArray = () => {
 generatePhotosArray();
 
 renderTiles(photosArray);
+
+renderGallery(photosArray);
 
 
 export { generatePhotosArray };

@@ -16,7 +16,7 @@ const tileTemplate = document
 const container = document.querySelector('.pictures');
 
 // функция принимает объект в качестве аргумента. В объекте ожидаются свойства url, description, likes и comments
-const createTile = ({ url, description, likes, comments}) => {
+const createTile = ({ url, description, likes, comments, id}) => {
   /* создает копию элемента tileTemplate с помощью метода cloneNode(true). Аргумент true указывает на то, что нужно также клонировать все дочерние элементы tileTemplate.
   Результат клонирования сохраняется в переменную tile. Теперь tile содержит точную копию элемента tileTemplate со всем его содержимым.*/
   const tile = tileTemplate.cloneNode(true);
@@ -30,6 +30,7 @@ const createTile = ({ url, description, likes, comments}) => {
   //Количество комментариев comments выведите в блок .picture__comments.
   tile.querySelector('.picture__likes').textContent = likes;
   // console.log(tile);
+  tile.dataset.tileId = id;
   return tile;
 
 };
