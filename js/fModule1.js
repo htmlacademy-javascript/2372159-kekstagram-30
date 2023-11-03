@@ -116,7 +116,7 @@ const renderGallery = (photos) => {
   container.addEventListener('click', (evt) => {
     const tile = evt.target.closest('[data-tile-id]');
     if (tile) {
-      const tileId = parseInt(tile.dataset.tileId);
+      const tileId = +tile.dataset.tileId;
       const photo = photos.find((item) => item.id === tileId);
       //console.log(photo);
       //console.log(tileId);
