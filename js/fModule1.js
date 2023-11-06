@@ -50,9 +50,7 @@ const bigPictureImageClass = bigPictureClass.querySelector('.big-picture__img im
 //-Количество лайков likes подставьте как текстовое содержание элемента .likes-count
 const bigPictureLikesCountClass = bigPictureClass.querySelector('.likes-count');
 //-Количество показанных комментариев подставьте как текстовое содержание элемента .social__comment-shown-count.
-const bigPictureSocialCommentCountClass = bigPictureClass.querySelector('.social__comment-count');
-//const bigPictureCommentsShownClass = bigPictureClass.querySelector('.social__comment-shown-count');
-//const commentShownCount = +bigPictureCommentsShownClass.textContent;
+let commentShownCount = +bigPictureClass.querySelector('.social__comment-shown-count').textContent;
 //console.log(commentShownCount);
 //-Общее количество комментариев к фотографии comments подставьте как текстовое содержание элемента .social__comment-total-count
 const bigPictureCommentsTotalClass = bigPictureClass.querySelector('.social__comment-total-count');
@@ -71,7 +69,15 @@ const bigPictureCommentsTotalClass = bigPictureClass.querySelector('.social__com
   <p class="social__text">{{текст комментария}}</p>
 </li>
 */
-const bigPictureSocialCommentClass = bigPictureClass.querySelector('.social__comments');
+const bigPictureSocialCommentsClass = bigPictureClass.querySelector('.social__comments');
+const bigPictureSocialCommentClassTemplate = bigPictureSocialCommentsClass.querySelector('.social__comment').cloneNode(true);
+bigPictureSocialCommentsClass.innerHTML = '';
+
+// console.log(bigPictureSocialCommentClassTemplate);
+// console.log(bigPictureSocialCommentsClass);
+// bigPictureSocialCommentsClass.appendChild(bigPictureSocialCommentClassTemplate);
+// console.log(bigPictureSocialCommentsClass);
+
 
 //6. Напишите код для закрытия окна по нажатию клавиши Esc и клике по иконке закрытия.
 // для события нажатия на кнопку
@@ -79,17 +85,39 @@ const cancelButtonClass = document.querySelector('#picture-cancel');
 
 const makeLiCommentElements = (photo) => {
   const comments = photo.comments;
-  //console.log(comments);
-  //console.log(bigPictureSocialCommentClass);
-  for (let i = 1; i <= 2; i++) {
-    const liCommentElement = bigPictureSocialCommentClass.querySelector(`.social__comments li:nth-child(${i})`);
+  commentShownCount = comments.length < 5 ? comments.length : 5;
+  bigPictureClass.querySelector('.social__comment-shown-count').textContent = commentShownCount;
+  console.log(commentShownCount);
+  for (let i = 1; i <= commentShownCount; i++) {
+    const liCommentElement = bigPictureSocialCommentClassTemplate.cloneNode(true);
     liCommentElement.src = comments[i - 1].avatar;
     liCommentElement.alt = comments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = comments[i - 1].message;
+    bigPictureSocialCommentsClass.appendChild(liCommentElement);
     //console.log(liCommentElement);
     //liCommentElement.
   }
 };
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const loadMoreCommentsButton = document.querySelector('.social__comments-loader.comments-loader');
+
+console.log(loadMoreCommentsButton);
+
+loadMoreCommentsButton.addEventListener('click', () => {
+  for (let i = 1; i <= 1; i++) {
+    const liCommentElement = bigPictureSocialCommentClassTemplate.cloneNode(true);
+    liCommentElement.src = comments[i - 1].avatar;
+    liCommentElement.alt = comments[i - 1].name;
+    liCommentElement.querySelector('.social__text').textContent = comments[i - 1].message;
+    bigPictureSocialCommentsClass.appendChild(liCommentElement);
+    //console.log(liCommentElement);
+    //liCommentElement.
+  }
+});
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 //- Описание фотографии description вставьте строкой в блок .social__caption
 const bigPictureCaptionClass = bigPictureClass.querySelector('.social__caption');
@@ -123,7 +151,7 @@ const renderGallery = (photos) => {
       bigPictureClass.classList.remove('hidden');
       showBigPicture(photo);
       // 4.После открытия окна спрячьте блоки счётчика комментариев .social__comment-count и загрузки новых комментариев .comments-loader, добавив им класс hidden, с ними мы разберёмся позже, в другом домашнем задании.
-      bigPictureSocialCommentCountClass.classList.add('hidden');
+      //bigPictureSocialCommentCountClass.classList.add('hidden');
       // 5.После открытия окна добавьте тегу <body> класс modal-open, чтобы контейнер с фотографиями позади не прокручивался при скролле. При закрытии окна не забудьте удалить этот класс.
       document.body.classList.add('modal-open');
     }
@@ -132,17 +160,15 @@ const renderGallery = (photos) => {
   cancelButtonClass.addEventListener('click', () => {
     bigPictureClass.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    bigPictureSocialCommentCountClass.classList.remove('hidden');
+    bigPictureSocialCommentsClass.innerHTML = '';
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-      // Handle the Esc key press event here
       bigPictureClass.classList.add('hidden');
       document.body.classList.remove('modal-open');
-      bigPictureSocialCommentCountClass.classList.remove('hidden');
+      bigPictureSocialCommentsClass.innerHTML = '';
     }
   });
-
 
 };
 
