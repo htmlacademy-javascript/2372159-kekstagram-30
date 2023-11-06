@@ -14,6 +14,12 @@ const uploadForm = document.querySelector('.img-upload__form');
 
 const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 
+
+/* ######################################################################
+                            раздел валидации
+###################################################################### */
+
+
 // требования к hashtags
 // +1. хэш-тег начинается с символа # (решётка);
 // +2. строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
@@ -101,15 +107,12 @@ pristine.addValidator(
   6,
   true);
 
-const handleImageUpload = () => {
-  // previewImage.src = URL.createObjectURL(file);
-  imgUploadOverlay.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-};
-
-imgUploadInput.addEventListener('change', handleImageUpload);
+/* ######################################################################
+                            раздел других событий
+###################################################################### */
 
 
+// закрытие окна редактора изображений
 const closeImgUploadOverlay = () => {
   imgUploadOverlay.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
@@ -119,9 +122,10 @@ const closeImgUploadOverlay = () => {
   // resetEffects
 };
 
+// клик на пиктограмму крестика модального окна редактора изображений (вызов закрытия окна)
 uploadFormExitButton.addEventListener('click', closeImgUploadOverlay);
 
-// evt.stopPropagation();
+// нажатие на клавишу [Esc] в модальном окне при неактивной форме fieldset (вызов закрытия окна)
 document.addEventListener('keydown', (event) => {
   const isHidden = imgUploadOverlay.classList.contains('hidden');
   const isFieldsetFocused = hashtagsField === document.activeElement || descriptionField === document.activeElement;
@@ -129,3 +133,13 @@ document.addEventListener('keydown', (event) => {
     closeImgUploadOverlay();
   }
 });
+
+/** открытие окна редактора изображений */
+const handleImageUpload = () => {
+  // previewImage.src = URL.createObjectURL(file);
+  imgUploadOverlay.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+};
+
+// выбор нового изображения (вызов открытия окна редактора изображений)
+imgUploadInput.addEventListener('change', handleImageUpload);
