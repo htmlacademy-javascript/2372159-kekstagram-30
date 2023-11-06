@@ -43,28 +43,33 @@ https://up.htmlacademy.ru/javascript/29/module/8/item/16
 
 */
 
-const moreCommentsNumber = 5;
+
+const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureImageElement = bigPictureElement.querySelector('.big-picture__img img');
+//изготовление шаблона комментария для большой картинки вместо двух текущих комментариев
+const bigPictureSocialCommentsElement = bigPictureElement.querySelector('.social__comments');
+const bigPictureSocialCommentElementTemplate = bigPictureSocialCommentsElement.querySelector('.social__comment').cloneNode(true);
+// очистка комментариев по-умолчанию
+bigPictureSocialCommentsElement.innerHTML = '';
 
 
 let photosArray;
 let photo;
 let photoComments;
-let commentsNumberShownClass;
+const commentsNumberShownElement = bigPictureElement.querySelector('.social__comment-shown-count');
 let commentsNumberShown;
 
-let cancelButtonClass;
-let loadMoreCommentsButton;
+// const moreCommentsNumber = 5;
+const moreCommentsNumber = +commentsNumberShownElement.textContent;
+
+const closeBigPictureButton = document.querySelector('#picture-cancel');
+const loadMoreCommentsButton = document.querySelector('.social__comments-loader.comments-loader');
 
 let smallPictures;
 
-let bigPictureClass;
-let bigPictureImageClass;
-let bigPictureSocialCommentsClass;
-let bigPictureSocialCommentClassTemplate;
-
 
 const checkLoadMoreCommentsButton = () => {
-  if (commentsNumberShown === +bigPictureClass.querySelector('.social__comment-total-count').textContent){
+  if (commentsNumberShown === +bigPictureElement.querySelector('.social__comment-total-count').textContent){
     loadMoreCommentsButton.classList.add('hidden');
   } else {
     loadMoreCommentsButton.classList.remove('hidden');
@@ -75,20 +80,20 @@ const checkLoadMoreCommentsButton = () => {
 // изготовление комментариев для большой картинки при открытии большой картинки
 const makeBigPictureCommentsInitial = () => {
   photoComments = photo.comments;
-  commentsNumberShownClass.textContent = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
+  commentsNumberShownElement.textContent = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   commentsNumberShown = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   for (let i = 1; i <= commentsNumberShown; i++) {
-    const liCommentElement = bigPictureSocialCommentClassTemplate.cloneNode(true);
+    const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
     liCommentElement.src = photoComments[i - 1].avatar;
     liCommentElement.alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
-    bigPictureSocialCommentsClass.appendChild(liCommentElement);
+    bigPictureSocialCommentsElement.appendChild(liCommentElement);
     //console.log(liCommentElement);
     //liCommentElement.
   }
-  commentsNumberShownClass.textContent = commentsNumberShown;
+  commentsNumberShownElement.textContent = commentsNumberShown;
   checkLoadMoreCommentsButton();
   // console.log(commentsNumberShown);
 };
@@ -98,16 +103,16 @@ const makeBigPictureCommentsInitial = () => {
 const addMoreComments = () => {
   commentsNumberShown = commentsNumberShown + moreCommentsNumber;
   commentsNumberShown = commentsNumberShown <= photoComments.length ? commentsNumberShown : photoComments.length;
-  for (let i = +commentsNumberShownClass.textContent; i <= commentsNumberShown; i++) {
-    const liCommentElement = bigPictureSocialCommentClassTemplate.cloneNode(true);
+  for (let i = +commentsNumberShownElement.textContent; i <= commentsNumberShown; i++) {
+    const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
     liCommentElement.src = photoComments[i - 1].avatar;
     liCommentElement.alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
-    bigPictureSocialCommentsClass.appendChild(liCommentElement);
+    bigPictureSocialCommentsElement.appendChild(liCommentElement);
     //console.log(liCommentElement);
     //liCommentElement.
   }
-  commentsNumberShownClass.textContent = commentsNumberShown;
+  commentsNumberShownElement.textContent = commentsNumberShown;
   checkLoadMoreCommentsButton();
 };
 
@@ -116,39 +121,29 @@ const openBigPicture = (picture) => {
   const tileId = +picture.getAttribute('data-tile-id');
   photo = photosArray.find((item) => item.id === tileId);
 
-  bigPictureImageClass.alt = photo.description;
-  bigPictureImageClass.src = photo.url;
-  bigPictureClass.querySelector('.likes-count').textContent = photo.likes;
-  bigPictureClass.querySelector('.social__comment-total-count').textContent = photo.comments.length;
-  bigPictureClass.querySelector('.social__caption').textContent = photo.description;
+  bigPictureImageElement.alt = photo.description;
+  bigPictureImageElement.src = photo.url;
+  bigPictureElement.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureElement.querySelector('.social__comment-total-count').textContent = photo.comments.length;
+  bigPictureElement.querySelector('.social__caption').textContent = photo.description;
 
   makeBigPictureCommentsInitial();
 
-  bigPictureClass.classList.remove('hidden');
+  bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
 };
 
 // операции закрытия большой картинки
 const closeBigPicture = () => {
-  bigPictureClass.classList.add('hidden');
+  bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  bigPictureSocialCommentsClass.innerHTML = '';
+  bigPictureSocialCommentsElement.innerHTML = '';
 };
 
-const events = (photos) => {
+const addBigPictureEvents = (photos) => {
   // передача ряда переменных в настоящий модуль
-  bigPictureClass = document.querySelector('.big-picture');
-  bigPictureImageClass = bigPictureClass.querySelector('.big-picture__img img');
-  commentsNumberShownClass = bigPictureClass.querySelector('.social__comment-shown-count');
-  loadMoreCommentsButton = document.querySelector('.social__comments-loader.comments-loader');
   smallPictures = document.querySelectorAll('.picture');
-  cancelButtonClass = document.querySelector('#picture-cancel');
   photosArray = photos;
-  bigPictureSocialCommentsClass = bigPictureClass.querySelector('.social__comments');
-  //изготовление шаблона комментария для большой картинки вместо двух текущих комментариев
-  bigPictureSocialCommentClassTemplate = bigPictureSocialCommentsClass.querySelector('.social__comment').cloneNode(true);
-  // очистка комментариев по-умолчанию
-  bigPictureSocialCommentsClass.innerHTML = '';
 
   // клик по маленькой картинке для вызова отрисовки большой картинки
   smallPictures.forEach((picture) => {
@@ -164,18 +159,18 @@ const events = (photos) => {
 
   // закрытие большой картинки по [Esc], если открыта большая картинка
   document.addEventListener('keydown', (event) => {
-    const isHidden = bigPictureClass.classList.contains('hidden');
+    const isHidden = bigPictureElement.classList.contains('hidden');
     if (event.key === 'Escape' && !isHidden) {
       closeBigPicture();
     }
   });
 
   // закрытие большой картинки по клику на пиктограмму крестика большой картинки
-  cancelButtonClass.addEventListener('click', () => {
+  closeBigPictureButton.addEventListener('click', () => {
     closeBigPicture();
   });
 
 };
 
 
-export { events }; // es module
+export { addBigPictureEvents as events }; // es module

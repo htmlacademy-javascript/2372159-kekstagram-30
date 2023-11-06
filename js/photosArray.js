@@ -40,18 +40,80 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
   5.4) Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
 */
 
-import { generatePhotosArray } from './photosArray.js';
-import { renderTiles } from './tiles.js';
-import { events } from './events.js';
+import { generateComments } from './comments.js';
+import { getRandomInt } from './common_functions.js';
 
 
-const photosArray = generatePhotosArray();
+// Ограничение на количество фотографий
+const photosLimit = 25;
 
-renderTiles(photosArray);
+/** пункт 1), генерация id */
 
-events(photosArray);
+const idsArray = []; // Создание пустого массива идентификаторов опубликованной(ых) фотографии(ий)
+for (let i = 1; i <= photosLimit; i++) {
+  idsArray.push(i);
+}
+
+let currentId;
+
+const generateId = () => {
+  const minId = 1;
+  const maxId = idsArray.length;
+  const randomNumber = getRandomInt(minId, maxId);
+  currentId = idsArray[randomNumber - 1]; //поправка на индекс
+  idsArray.splice(randomNumber - 1, 1); //поправка на индекс
+  return currentId;
+};
+
+/** пункт 2), генерация url */
+
+let currentUrl;
+const generateUrl = () => {
+  currentUrl = `photos/${currentId}.jpg`;
+  return currentUrl;
+};
 
 
+/** пункт 3), генерация description */
+
+const generateDescription = () => `Описание фотографии №${currentId}`;
+
+/** пункт 4), генерация likes */
+
+const generateLikes = () => {
+  const minLikes = 1;
+  const maxLikes = 200;
+  return getRandomInt(minLikes, maxLikes);
+};
+
+/** пункт 5), генерация comments */
+
+// далее создание массива фотографий
+const generatePhoto = () => {
+  const photo = {
+    id: generateId(),
+    url: generateUrl(),
+    description: generateDescription(),
+    likes: generateLikes(),
+    comments: generateComments()
+  };
+  return photo;
+};
+
+const photosArray = []; // Создание пустого массива
+
+/** генерация массива фотографий */
+const generatePhotosArray = () => {
+  for (let i = 0; i < photosLimit; i++) {
+    const currentPhoto = generatePhoto();
+    photosArray.push(currentPhoto);
+    //addPhoto(photosArray, currentPhoto);
+  }
+  return photosArray;
+};
+
+
+export { generatePhotosArray };
 // export const document = window.document;
 
 
