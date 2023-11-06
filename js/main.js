@@ -43,8 +43,7 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 import { generateComments } from './comments.js';
 import { getRandomInt } from './common_functions.js';
 import { renderTiles } from './tiles.js';
-//import { renderGallery } from './fModule1.js';
-import { events } from './fModule2.js';
+import { events } from './events.js';
 
 
 // Ограничение на количество фотографий
@@ -120,11 +119,12 @@ generatePhotosArray();
 
 renderTiles(photosArray);
 
-//renderGallery(photosArray);
+events(photosArray);
+
 
 export { generatePhotosArray };
 // export const document = window.document;
-events(photosArray);
+
 
 //npx cypress open
 //npm run lint
