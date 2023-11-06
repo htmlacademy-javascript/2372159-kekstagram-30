@@ -152,7 +152,8 @@ const events = (photos) => {
 
   // клик по маленькой картинке для вызова отрисовки большой картинки
   smallPictures.forEach((picture) => {
-    picture.addEventListener('click', () => {
+    picture.addEventListener('click', (event) => {
+      event.preventDefault();
       openBigPicture(picture);
     });
   });
