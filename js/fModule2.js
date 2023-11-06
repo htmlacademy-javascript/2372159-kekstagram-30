@@ -54,14 +54,23 @@ let smallPictures;
 let photosArray;
 let bigPictureSocialCommentsClass;
 let bigPictureSocialCommentClassTemplate;
+let photo;
 
 const bigPictureClass = document.querySelector('.big-picture');
 const bigPictureImageClass = bigPictureClass.querySelector('.big-picture__img img');
 
 
+// изготовление комментариев для большой картинки
+const makeBigPictureComments = () => {
+  const comments = photo.comments;
+
+};
+
+
+// операции открытия и отрисовки большой картинки
 const openBigPicture = (picture) => {
   const tileId = +picture.getAttribute('data-tile-id');
-  const photo = photosArray.find((item) => item.id === tileId);
+  photo = photosArray.find((item) => item.id === tileId);
 
   bigPictureImageClass.alt = photo.description;
   bigPictureImageClass.src = photo.url;
@@ -69,10 +78,13 @@ const openBigPicture = (picture) => {
   bigPictureClass.querySelector('.social__comment-total-count').textContent = photo.comments.length;
   bigPictureClass.querySelector('.social__caption').textContent = photo.description;
 
+  makeBigPictureComments();
+
   bigPictureClass.classList.remove('hidden');
   document.body.classList.add('modal-open');
 };
 
+// операции закрытия большой картинки
 const closeBigPicture = () => {
   bigPictureClass.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -90,7 +102,7 @@ const events = (photos) => {
   // очистка комментариев по-умолчанию
   bigPictureSocialCommentsClass.innerHTML = '';
 
-  // клик по маленькой картинке вызывает отрисовку большой картинки
+  // клик по маленькой картинке для вызова отрисовки большой картинки
   smallPictures.forEach((picture) => {
     picture.addEventListener('click', () => {
       openBigPicture(picture);
