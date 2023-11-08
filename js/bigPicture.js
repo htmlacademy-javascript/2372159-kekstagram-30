@@ -173,4 +173,4 @@ const addBigPictureEvents = (photos) => {
 };
 
 
-export { addBigPictureEvents as events }; // es module
+export { addBigPictureEvents }; // es module

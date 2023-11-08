@@ -42,14 +42,15 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
 
 import { generatePhotosArray } from './photosArray.js';
 import { renderTiles } from './tiles.js';
-import { events } from './events.js';
+import { addBigPictureEvents } from './bigPicture.js';
+import { imageUploadEvent } from './imageUploadForm.js';
 
 
 const photosArray = generatePhotosArray();
 
 renderTiles(photosArray);
-
-events(photosArray);
+addBigPictureEvents(photosArray);
+imageUploadEvent();
 
 
 // export const document = window.document;

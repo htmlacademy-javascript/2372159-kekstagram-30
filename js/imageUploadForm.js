@@ -1,5 +1,8 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 
+import { runSlider } from './imageUploadFormEffects.js';
+// import { runSlider } from './effects_test.js';
+
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 //для работы с формой редактирования
@@ -108,7 +111,7 @@ pristine.addValidator(
   true);
 
 /* ######################################################################
-                            раздел других событий
+      раздел открытия-закрытия модального окна редактора изображений
 ###################################################################### */
 
 
@@ -139,7 +142,15 @@ const handleImageUpload = () => {
   // previewImage.src = URL.createObjectURL(file);
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
+  runSlider(); // imageUploadForm.js
 };
 
-// выбор нового изображения (вызов открытия окна редактора изображений)
-imgUploadInput.addEventListener('change', handleImageUpload);
+const imageUploadEvent = () => {
+  // выбор нового изображения (вызов открытия окна редактора изображений)
+  imgUploadInput.addEventListener('change', handleImageUpload);
+};
+
+
+export { imageUploadEvent };
+
+
