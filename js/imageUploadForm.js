@@ -1,14 +1,30 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 
-import { runSlider } from './imageUploadFormEffects.js';
-// import { runSlider } from './effects_test.js';
+import { runSlider, destroySliderAndEvents } from './imageUploadFormEffects.js';
 
 const imgUploadInput = document.querySelector('.img-upload__input');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 //для работы с формой редактирования
-const previewImage = document.querySelector('.img-upload__preview img');
-const effectsPreview = document.querySelectorAll('.effects__preview');
+/*
+ const previewImage = document.querySelector('.img-upload__preview img');
+ const effectsPreview = document.querySelectorAll('.effects__preview');
+ <@&1158316184110911519> Попробуйте следующий алгоритм:
 
+1. Загружаете фото через инпут, который уже содержится в html. К нему можно получить доступ по id "upload-file" или классу "img-upload__input". Думаю, лучше использовать id.
+
+2. Когда фото загружено в инпут, получите к нему доступ через ключ files. Скорее всего нас интересует первый элемент, значит files[0].
+
+3. Создайте экземпляр FileReader через ключевое слово new.
+
+4. Попробуйте прочитеть файл, взятый из инпута, используя созданный экземпляр файл ридера. Посмотрите в документации (https://developer.mozilla.org/ru/docs/Web/API/FileReader) какие есть методы, выберите подходящий.
+
+5. FileReader читает файлы асинхронно, чтобы извлечь результат, подпишитесь на соответствующее событие. Цитата из документации: "FileReader.onload. Обработчик для события load (en-US). Это событие срабатывает при каждом успешном завершении операции чтения."
+
+6. Посмотрите, что было получено в результате чтения, можем ли мы применить эти данные, чтобы появилось нужное нам изображение
+https://developer.mozilla.org/ru/docs/Web/API/FileReader
+*/
+
+/** document.querySelector('.img-upload__text'); */
 const fieldset = document.querySelector('.img-upload__text');
 const hashtagsField = fieldset.querySelector('.text__hashtags');
 const descriptionField = fieldset.querySelector('.text__description');
@@ -121,6 +137,7 @@ const closeImgUploadOverlay = () => {
   document.querySelector('body').classList.remove('modal-open');
   pristine.reset();
   uploadForm.reset();
+  destroySliderAndEvents();
   // resetScale
   // resetEffects
 };
@@ -150,7 +167,26 @@ const imageUploadEvent = () => {
   imgUploadInput.addEventListener('change', handleImageUpload);
 };
 
+/* ######################################################################
+      блокировка отправки невалидной формы
+###################################################################### */
+
+const form = document.querySelector('.img-upload__form');
+
+form.addEventListener('pristine:validation-error', () => {
+  document.querySelector('#upload-submit').disabled = true;
+  console.log('pristine:validation-error');
+});
+
 
 export { imageUploadEvent };
+
+/**
+ для отладки
+*/
+
+imgUploadOverlay.classList.remove('hidden');
+document.querySelector('body').classList.add('modal-open');
+runSlider(); // imageUploadForm.js
 
 
