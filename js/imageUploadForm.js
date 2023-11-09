@@ -2,12 +2,16 @@
 
 import { runSlider, destroySliderAndEvents } from './imageUploadFormEffects.js';
 
+/** document.querySelector('.img-upload__input'); */
 const imgUploadInput = document.querySelector('.img-upload__input');
+/** document.querySelector('.img-upload__overlay'); */
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+/** document.querySelector('.img-upload__preview img'); */
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+/** document.querySelector('.img-upload__preview'); */
+const previewEffects = document.querySelectorAll('.effects__preview');
 //для работы с формой редактирования
 /*
- const previewImage = document.querySelector('.img-upload__preview img');
- const effectsPreview = document.querySelectorAll('.effects__preview');
  <@&1158316184110911519> Попробуйте следующий алгоритм:
 
 1. Загружаете фото через инпут, который уже содержится в html. К нему можно получить доступ по id "upload-file" или классу "img-upload__input". Думаю, лучше использовать id.
@@ -16,7 +20,7 @@ const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 
 3. Создайте экземпляр FileReader через ключевое слово new.
 
-4. Попробуйте прочитеть файл, взятый из инпута, используя созданный экземпляр файл ридера. Посмотрите в документации (https://developer.mozilla.org/ru/docs/Web/API/FileReader) какие есть методы, выберите подходящий.
+4. Попробуйте прочитать файл, взятый из инпута, используя созданный экземпляр файл ридера. Посмотрите в документации (https://developer.mozilla.org/ru/docs/Web/API/FileReader) какие есть методы, выберите подходящий.
 
 5. FileReader читает файлы асинхронно, чтобы извлечь результат, подпишитесь на соответствующее событие. Цитата из документации: "FileReader.onload. Обработчик для события load (en-US). Это событие срабатывает при каждом успешном завершении операции чтения."
 
@@ -32,6 +36,8 @@ const descriptionField = fieldset.querySelector('.text__description');
 const uploadForm = document.querySelector('.img-upload__form');
 
 const uploadFormExitButton = document.querySelector('.img-upload__cancel');
+/** document.querySelector('.img-upload__submit'); */
+const submitFormButton = document.querySelector('.img-upload__submit');
 
 
 /* ######################################################################
@@ -67,15 +73,21 @@ form.addEventListener('submit', function (e) {
 });
 */
 
+/* ######################################################################
+        раздел валидации и блокировки отправки
+###################################################################### */
+
 const pristine = new Pristine(uploadForm,{
   //отвечает за элемент, на который будут навешиваться служебные классы: валидно поле, невалидное
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper'
 });
 
-//Слушает событие input на поле ввода fieldset
+//Слушает событие input на поле ввода fieldset, дополнительно блокирует кнопку
 fieldset.addEventListener('input', () => {
-  pristine.validate();
+  const isValid = pristine.validate();
+  // eslint-disable-next-line
+  isValid ? submitFormButton.disabled = false : submitFormButton.disabled = true;
 });
 
 const refineHashtags = (str) => str
@@ -156,7 +168,6 @@ document.addEventListener('keydown', (event) => {
 
 /** открытие окна редактора изображений */
 const handleImageUpload = () => {
-  // previewImage.src = URL.createObjectURL(file);
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   runSlider(); // imageUploadForm.js
@@ -164,20 +175,24 @@ const handleImageUpload = () => {
 
 const imageUploadEvent = () => {
   // выбор нового изображения (вызов открытия окна редактора изображений)
-  imgUploadInput.addEventListener('change', handleImageUpload);
+  imgUploadInput.addEventListener('change', () => {
+    handleImageUpload();
+    // console.log(imgUploadInput.files);
+    const imageFile = imgUploadInput.files[0];
+    const imageSrc = URL.createObjectURL(imageFile);
+    // console.log(imgUploadPreview);
+    imgUploadPreview.src = imageSrc;
+    // console.log(imgUploadPreview);
+    // console.log(document.querySelector('.effects__preview'));
+    // console.log(imageSrc);
+    // console.log(previewEffects);
+    previewEffects.forEach((preview) =>{
+      // console.log(preview);
+      // console.log(preview.style.backgroundImage);
+      preview.style.backgroundImage = `url(${imageSrc})`;
+    });
+  });
 };
-
-/* ######################################################################
-      блокировка отправки невалидной формы
-###################################################################### */
-
-const form = document.querySelector('.img-upload__form');
-
-form.addEventListener('pristine:validation-error', () => {
-  document.querySelector('#upload-submit').disabled = true;
-  console.log('pristine:validation-error');
-});
-
 
 export { imageUploadEvent };
 
@@ -185,8 +200,8 @@ export { imageUploadEvent };
  для отладки
 */
 
-imgUploadOverlay.classList.remove('hidden');
-document.querySelector('body').classList.add('modal-open');
-runSlider(); // imageUploadForm.js
+// imgUploadOverlay.classList.remove('hidden');
+// document.querySelector('body').classList.add('modal-open');
+// runSlider(); // imageUploadForm.js
 
 
