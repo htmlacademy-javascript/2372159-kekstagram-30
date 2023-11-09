@@ -7,7 +7,7 @@ const effectsPhotoElement = document.querySelector('.effects');
 /** document.querySelector('.effect-level'); */
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderHeadElement = document.querySelector('.img-upload__effect-level');
-const effectLevelElement = document.querySelector('.effect-level__value');
+// const effectLevelElement = document.querySelector('.effect-level__value');
 
 //масштабирование изображения
 /** document.querySelector('.scale__control--value');  */
