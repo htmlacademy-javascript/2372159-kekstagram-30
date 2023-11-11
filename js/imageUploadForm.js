@@ -237,7 +237,7 @@ const handleImageUpload = () => {
 const imageUploadEvent = () => {
   // выбор нового изображения (вызов открытия окна редактора изображений)
   imgUploadInput.addEventListener('change', () => {
-    handleImageUpload();
+    // handleImageUpload();
     // console.log(imgUploadInput.files);
     const imageFile = imgUploadInput.files[0];
     const imageSrc = URL.createObjectURL(imageFile);
@@ -252,6 +252,7 @@ const imageUploadEvent = () => {
       // console.log(preview.style.backgroundImage);
       preview.style.backgroundImage = `url(${imageSrc})`;
     });
+    handleImageUpload();
   });
 };
 
