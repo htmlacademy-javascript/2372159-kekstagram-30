@@ -72,3 +72,5 @@ try {
 //npx cypress open
 //npm run lint
 //npm run start
+
+// https://github.com/htmlacademy-javascript/2372159-kekstagram-30/pull/11

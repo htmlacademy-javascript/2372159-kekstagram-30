@@ -101,11 +101,15 @@ const updateSlider = () => {
     step: chosenEffect.step,
     connect: 'lower',
   });
+  sliderElement.noUiSlider.set(chosenEffect.max);
+  // console.log(sliderElement.noUiSlider.get());
 };
 
 const updateFilter = () => {
   const effect = chosenEffect.style;
   const value = sliderElement.noUiSlider.get();
+  // console.log(sliderElement.noUiSlider.get());
+  // console.log(value);
   const unit = chosenEffect.unit;
   imgPreviewElement.style.filter = `${effect}(${value}${unit})`;
 };
@@ -125,19 +129,23 @@ const renderSlider = () => {
 
 
 const AddSliderEvents = () => {
-  // перехват изменения слайдера
+  // перехват изменения ползунка слайдера
   sliderElement.noUiSlider.on('update', () => {
     // console.log(sliderElement.noUiSlider.get());
     updateFilter();
   });
-  // перехват радиокнопки изменения эффекта
+  // перехват изменения радиокнопки изменения эффекта
   effectsPhotoElement.addEventListener('change', (event) => {
     const effectName = event.target.value;
     // console.log(event.target.value);
     const index = photoEffects.findIndex((effect) => effect.name === effectName);
     chosenEffect = photoEffects[index];
-    // eslint-disable-next-line
-    index === 0 ? hideSlider() : renderSlider();
+    // index === 0 ? hideSlider() : renderSlider();
+    if (index === 0) {
+      hideSlider();
+    } else {
+      renderSlider();
+    }
     // console.log(chosenEffect);
   });
 
