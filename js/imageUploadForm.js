@@ -87,7 +87,12 @@ const pristine = new Pristine(uploadForm,{
 fieldset.addEventListener('input', () => {
   const isValid = pristine.validate();
   // eslint-disable-next-line
-  isValid ? submitFormButton.disabled = false : submitFormButton.disabled = true;
+  // isValid ? submitFormButton.disabled = false : submitFormButton.disabled = true;
+  if (isValid) {
+    submitFormButton.disabled = false;
+  } else {
+    submitFormButton.disabled = true;
+  }
 });
 
 const refineHashtags = (str) => str
