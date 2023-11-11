@@ -40,17 +40,30 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
   5.4) Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
 */
 
-import { generatePhotosArray } from './photosArray.js';
+// import { generatePhotosArray } from './photosArray.js';
 import { renderTiles } from './tiles.js';
 import { addBigPictureEvents } from './bigPicture.js';
 import { imageUploadEvent } from './imageUploadForm.js';
+import { getData } from './api.js';
 
 
-const photosArray = generatePhotosArray();
+// const photosArray = generatePhotosArray();
+// const photosArray = getData();
+try {
+  const photosArray = await getData();
+  renderTiles(photosArray);
+  addBigPictureEvents(photosArray);
+  imageUploadEvent();
+} catch (err) {
+  //eslint-disable-next-line
+  alert('что-то пошло не так c getData() ');
+}
 
-renderTiles(photosArray);
-addBigPictureEvents(photosArray);
-imageUploadEvent();
+// console.log(photosArray);
+
+// renderTiles(photosArray);
+// addBigPictureEvents(photosArray);
+// imageUploadEvent();
 
 
 // export const document = window.document;
