@@ -97,30 +97,51 @@ const refineHashtags = (str) => str
   .filter((array) => Boolean(array.length));
 
 
-const hasValidHashtagsNumber = (value) => (refineHashtags(value).length <= hashtagsMaxCount);
-
-//Нарушен пункт 8: более ${hashtagsMaxCount} хэш-тегов
-pristine.addValidator(
-  hashtagsField,
-  hasValidHashtagsNumber,
-  `Нарушен пункт 8: более ${hashtagsMaxCount} хэш-тегов`,
-  10,
-  true);
-
-//Нарушен один из пунктов: 1, 2, 3, 4, 6
-const hashtagsMultiValidate = (value) => {
+//Restriction 1: хэш-тег начинается с символа # (решётка);
+const hasRestriction1 = (value) => {
   const arrayedHashtag = refineHashtags(value);
-  const regex = new RegExp(`^#[a-zа-яё0-9]{1,${maxHashtagLength}}$`, 'i');
-  return arrayedHashtag.every((tag) =>(regex.test(tag)));
+  return arrayedHashtag.every((tag) =>(tag.startsWith('#')));
 };
 
 pristine.addValidator(
   hashtagsField,
-  hashtagsMultiValidate,
+  hasRestriction1,
   `
-    Нарушен один из пунктов: 1, 2, 3, 4, 6
+    Нарушен пункт 1: хэш-тег должен начинаться с символа #
   `,
-  7,
+  11,
+  true);
+
+
+//Restriction 6: хэш-теги разделяются пробелами;
+const hasRestriction6 = (value) => {
+  const arrayedHashtag = refineHashtags(value);
+  return !arrayedHashtag.some((tag) => tag.split('#').length > 2);
+};
+
+pristine.addValidator(
+  hashtagsField,
+  hasRestriction6,
+  `
+    Нарушен пункт 6: хэш-теги разделяются пробелами
+  `,
+  10,
+  true);
+
+
+//Нарушен пункт 3: хеш-тег не может состоять только из одной решётки
+const hasHashOnly = (value) => {
+  const arrayedHashtag = refineHashtags(value);
+  return arrayedHashtag.every((tag) =>(tag.length !== 1));
+};
+
+pristine.addValidator(
+  hashtagsField,
+  hasHashOnly,
+  `
+  Нарушен пункт 3: хеш-тег не может состоять только из одной решётки
+  `,
+  9,
   true);
 
 //Нарушен пункт 5 и 7: дублирование хэш-тега
@@ -133,7 +154,34 @@ pristine.addValidator(
   hashtagsField,
   hasDuplicates,
   `
-  Нарушен пункт 5 и 7: дублирование хэш-тега
+  Нарушен пункт 7: дублирование хэш-тега
+  `,
+  8,
+  true);
+
+//Нарушен пункт 7: более ${hashtagsMaxCount} хэш-тегов
+const hasValidHashtagsNumber = (value) => (refineHashtags(value).length <= hashtagsMaxCount);
+
+pristine.addValidator(
+  hashtagsField,
+  hasValidHashtagsNumber,
+  `Нарушен пункт 8: более ${hashtagsMaxCount} хэш-тегов`,
+  7,
+  true);
+
+
+//Нарушен пункт 2: строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.
+const hashtagsMultiValidate = (value) => {
+  const arrayedHashtag = refineHashtags(value);
+  const regex = new RegExp(`^#[a-zа-яё0-9]{1,${maxHashtagLength}}$`, 'i');
+  return arrayedHashtag.every((tag) =>(regex.test(tag)));
+};
+
+pristine.addValidator(
+  hashtagsField,
+  hashtagsMultiValidate,
+  `
+    Нарушен пункт 2: строка после "#" должна состоять из букв и чисел.
   `,
   6,
   true);

@@ -99,9 +99,10 @@ const updateSlider = () => {
       max: chosenEffect.max,
     },
     step: chosenEffect.step,
+    start: chosenEffect.max,
     connect: 'lower',
   });
-  sliderElement.noUiSlider.set(chosenEffect.max);
+  // sliderElement.noUiSlider.set(chosenEffect.max);
   // console.log(sliderElement.noUiSlider.get());
 };
 
