@@ -198,7 +198,7 @@ const closeImgUploadOverlay = () => {
   pristine.reset();
   uploadForm.reset();
   destroySliderAndEvents();
-  document.querySelector('.img-upload__preview').style.filter = 'none';
+  // document.querySelector('.img-upload__preview').style.filter = 'none';
   // resetScale
   // resetEffects
 };
