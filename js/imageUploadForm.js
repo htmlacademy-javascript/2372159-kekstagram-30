@@ -198,6 +198,7 @@ const closeImgUploadOverlay = () => {
   pristine.reset();
   uploadForm.reset();
   destroySliderAndEvents();
+  document.querySelector('.img-upload__preview').style.filter = 'none';
   // resetScale
   // resetEffects
 };
@@ -218,6 +219,13 @@ document.addEventListener('keydown', (event) => {
 const handleImageUpload = () => {
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
+  // document.querySelector('.img-upload__preview').style = '';
+  // imgUploadPreview.src = '';
+  // previewEffects.forEach((preview) =>{
+  //  console.log(preview);
+  //  console.log(preview.style.backgroundImage);
+  //   preview.style.backgroundImage = `url(${imageSrc})`;
+  // destroySliderAndEvents();
   runSlider(); // imageUploadForm.js
 };
 
@@ -251,5 +259,3 @@ export { imageUploadEvent };
 // imgUploadOverlay.classList.remove('hidden');
 // document.querySelector('body').classList.add('modal-open');
 // runSlider(); // imageUploadForm.js
-
-

@@ -88,6 +88,7 @@ const initSlider = () => {
     step: initialEffect.step,
     connect: 'lower',
   });
+  imgPreviewElement.style.filter = 'none';
   // console.log(sliderElement.noUiSlider.get());
 };
 
@@ -117,7 +118,7 @@ const updateFilter = () => {
 
 const hideSlider = () => {
   sliderHeadElement.classList.add('hidden');
-  imgPreviewElement.style.filter = 'none';
+  // imgPreviewElement.style.filter = 'none';
   // sliderHeadElement.reset();
   // imgPreviewElement.reset();
 };
@@ -188,10 +189,16 @@ const resetScale = () => {
 
 // #############################################################
 
+const destroySliderAndEvents = ()=>{
+  chosenEffect = initialEffect;
+  sliderElement.noUiSlider.destroy();
+};
 
 const runSlider = () => {
   // renderSlider();
   resetScale();
+  // destroySliderAndEvents();
+  // imgPreviewElement.style.filter = 'none';
   hideSlider();
   // alert('hideSlider()');
   initSlider();
@@ -205,8 +212,5 @@ const runSlider = () => {
 
 };
 
-const destroySliderAndEvents = ()=>{
-  sliderElement.noUiSlider.destroy();
-};
 
 export { runSlider, destroySliderAndEvents }; // es module
