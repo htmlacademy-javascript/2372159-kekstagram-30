@@ -45,12 +45,12 @@ import { getRandomInt } from './common_functions.js';
 
 
 // Ограничение на количество фотографий
-const photosLimit = 25;
+const PHOTOS_LIMIT = 25;
 
 /** пункт 1), генерация id */
 
 const idsArray = []; // Создание пустого массива идентификаторов опубликованной(ых) фотографии(ий)
-for (let i = 1; i <= photosLimit; i++) {
+for (let i = 1; i <= PHOTOS_LIMIT; i++) {
   idsArray.push(i);
 }
 
@@ -104,7 +104,7 @@ const photosArray = []; // Создание пустого массива
 
 /** генерация массива фотографий */
 const generatePhotosArray = () => {
-  for (let i = 0; i < photosLimit; i++) {
+  for (let i = 0; i < PHOTOS_LIMIT; i++) {
     const currentPhoto = generatePhoto();
     photosArray.push(currentPhoto);
     //addPhoto(photosArray, currentPhoto);
