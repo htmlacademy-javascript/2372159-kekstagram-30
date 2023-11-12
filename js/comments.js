@@ -26,10 +26,10 @@
 import { getRandomInt } from './common_functions.js';
 
 // Ограничение на количество фотографий
-const commentsLimit = 30;
+const COMMENTS_LIMIT = 30;
 
 // Массив имен авторов комментариев
-const namesArray = [
+const NAMES_ARRAY = [
   'Имя 1',
   'Имя 2',
   'Имя 3',
@@ -39,7 +39,7 @@ const namesArray = [
 ];
 
 // массив сообщений
-const messagesArrayBasic = [
+const MESSAGES_ARRAY_BASIC = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -48,13 +48,12 @@ const messagesArrayBasic = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?'
 ];
 
-
 /** пункт 5.1), генерация commentId */
+const COMMENTS_ID_LIMIT = 1000;
 
 const commentsIdsArray = []; // Создание пустого массива Ids
-const commentsIdLimit = 1000;
 const refreshCommentsIdsArray = () => {
-  for (let i = 1; i <= commentsIdLimit; i++) {
+  for (let i = 1; i <= COMMENTS_ID_LIMIT; i++) {
     commentsIdsArray.push(i);
   }
 };
@@ -83,7 +82,7 @@ const generateAvatar = () => {
 
 
 const generateMessage = () => {
-  const messagesArrayCurrent = [...messagesArrayBasic];
+  const messagesArrayCurrent = [...MESSAGES_ARRAY_BASIC];
   const numberOfMessages = Math.floor(Math.random() * 2) + 1;
   let newMessage = '';
   const spaceBar = ' ';
@@ -104,9 +103,9 @@ const generateMessage = () => {
 
 const generateName = () => {
   const minId = 1;
-  const maxId = namesArray.length;
+  const maxId = NAMES_ARRAY.length;
   const randomNumber = getRandomInt(minId, maxId);
-  return namesArray[randomNumber - 1]; //поправка на индекс
+  return NAMES_ARRAY[randomNumber - 1]; //поправка на индекс
 };
 
 /** генерация объекта */
@@ -125,7 +124,7 @@ const generateComment = () => {
 const generateComments = () => {
   const commentsArray = []; // Создание пустого массива комментариев
 
-  const randomCommentsNumber = Math.floor(Math.random() * commentsLimit + 1); // Генерация числа от 0 до 30 (commentsLimit)
+  const randomCommentsNumber = Math.floor(Math.random() * COMMENTS_LIMIT + 1); // Генерация числа от 0 до 30 (commentsLimit)
 
   refreshCommentsIdsArray();
 
