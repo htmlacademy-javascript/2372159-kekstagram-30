@@ -1,8 +1,8 @@
-import { BaseUrl, Route, Method, ErrorMessage } from './api_config.js';
+import { BASE_URL, ROUTE, METHOD, ERROR_MESSAGE } from './api_config.js';
 
 
-const uploadData = (route, errorMessage, method = Method.get, body = null) =>
-  fetch(`${BaseUrl}${route}`, { method, body })
+const uploadData = (route, errorMessage, method = METHOD.get, body = null) =>
+  fetch(`${BASE_URL}${route}`, { method, body })
     .then((response) => {
       if (!response.ok) {
         throw new Error();
@@ -13,10 +13,10 @@ const uploadData = (route, errorMessage, method = Method.get, body = null) =>
       throw new Error(errorMessage);
     });
 
-const getData = () => uploadData(Route.getData, ErrorMessage.getData);
+const getData = () => uploadData(ROUTE.getData, ERROR_MESSAGE.getData);
 
 const sendData = (body) => {
-  uploadData(Route.getData, ErrorMessage.getData, Method.post, body);
+  uploadData(ROUTE.getData, ERROR_MESSAGE.getData, METHOD.post, body);
 
 };
 

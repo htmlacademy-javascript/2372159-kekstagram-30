@@ -9,16 +9,7 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const sliderHeadElement = document.querySelector('.img-upload__effect-level');
 // const effectLevelElement = document.querySelector('.effect-level__value');
 
-//масштабирование изображения
-/** document.querySelector('.scale__control--value');  */
-const scaleControlValue = document.querySelector('.scale__control--value');
-const downScaleButton = document.querySelector('.scale__control--smaller');
-const upScaleButton = document.querySelector('.scale__control--bigger');
-
-
-// ########## Фильтр картинки #########################
-
-const photoEffects = [
+const PHOTO_EFFECTS = [
   {
     name : 'none',
     style : 'none',
@@ -69,14 +60,11 @@ const photoEffects = [
   },
 ];
 
-const initialEffect = photoEffects[0];
+const initialEffect = PHOTO_EFFECTS[0];
 
 let chosenEffect = initialEffect;
 
-// console.log(initialEffect);
-// console.log(initialEffect.step);
-
-
+/** вызывается в единственной функции - в runSlider() */
 const initSlider = () => {
   // console.log(sliderElement);
   noUiSlider.create(sliderElement, {
@@ -88,11 +76,13 @@ const initSlider = () => {
     step: initialEffect.step,
     connect: 'lower',
   });
-  imgPreviewElement.style.filter = 'none';
+  // imgPreviewElement.style.filter = 'none';
   // console.log(sliderElement.noUiSlider.get());
 };
 
-
+/** вызывается в:
+ * 1) renderSlider() - при событии изменения радиокнопки
+ * 2) updateSlider() - при событии изменения ползунка слайдера */
 const updateSlider = () => {
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -116,13 +106,15 @@ const updateFilter = () => {
   imgPreviewElement.style.filter = `${effect}(${value}${unit})`;
 };
 
+/** sliderHeadElement.classList.add('hidden'); */
 const hideSlider = () => {
   sliderHeadElement.classList.add('hidden');
-  // imgPreviewElement.style.filter = 'none';
-  // sliderHeadElement.reset();
-  // imgPreviewElement.reset();
+  imgPreviewElement.style.filter = 'none';
 };
 
+// const showSlider = () => sliderHeadElement.classList.remove('hidden');
+
+/** вызывается при событии изменения радиокнопки изменения эффекта  */
 const renderSlider = () => {
   sliderHeadElement.classList.remove('hidden');
   updateSlider();
@@ -130,64 +122,25 @@ const renderSlider = () => {
 };
 
 
-const AddSliderEvents = () => {
+const addSliderEvents = () => {
   // перехват изменения ползунка слайдера
-  sliderElement.noUiSlider.on('update', () => {
-    // console.log(sliderElement.noUiSlider.get());
-    updateFilter();
-  });
+  sliderElement.noUiSlider.on('update', () => updateFilter());
   // перехват изменения радиокнопки изменения эффекта
   effectsPhotoElement.addEventListener('change', (event) => {
     const effectName = event.target.value;
     // console.log(event.target.value);
-    const index = photoEffects.findIndex((effect) => effect.name === effectName);
-    chosenEffect = photoEffects[index];
-    // index === 0 ? hideSlider() : renderSlider();
+    const index = PHOTO_EFFECTS.findIndex((effect) => effect.name === effectName);
+    chosenEffect = PHOTO_EFFECTS[index];
+    // index === 0 ? hideSlider() : showSlider();
     if (index === 0) {
       hideSlider();
     } else {
+      // showSlider();
       renderSlider();
     }
-    // console.log(chosenEffect);
-  });
-
-};
-
-
-// ########## Масштабирование картинки #########################
-
-const convertScale = (value) => +value.replace('%', '');
-const scaleStep = 25;
-
-
-const scaleImage = (value) => {
-  imgPreviewElement.style.transform = `scale(${value / 100})`;
-};
-
-downScaleButton.addEventListener('click', () => {
-  // console.log(scaleControlValue.value);
-  let newScale = convertScale(scaleControlValue.value) - scaleStep;
-  newScale = newScale < scaleStep ? scaleStep : newScale;
-  scaleImage(newScale);
-  scaleControlValue.value = `${newScale}%`;
-  // console.log(scaleControlValue.value);
-});
-
-const addZoomEvents = () => {
-  upScaleButton.addEventListener('click', () => {
-    let newScale = convertScale(scaleControlValue.value) + scaleStep;
-    newScale = newScale > 100 ? 100 : newScale;
-    scaleImage(newScale);
-    scaleControlValue.value = `${newScale}%`;
   });
 };
 
-
-const resetScale = () => {
-  scaleControlValue.value = '100%';
-};
-
-// #############################################################
 
 const destroySliderAndEvents = ()=>{
   chosenEffect = initialEffect;
@@ -195,22 +148,30 @@ const destroySliderAndEvents = ()=>{
 };
 
 const runSlider = () => {
-  // renderSlider();
-  resetScale();
-  // destroySliderAndEvents();
-  // imgPreviewElement.style.filter = 'none';
   hideSlider();
-  // alert('hideSlider()');
   initSlider();
-  // renderSlider();
-  // console.log('отработала run slider');
-  // updateSlider();
-  // console.log(convertScale(document.querySelector('.scale__control--value').value));
-
-  addZoomEvents();
-  AddSliderEvents();
-
+  addSliderEvents();
 };
 
 
 export { runSlider, destroySliderAndEvents }; // es module
+
+/*
+
+Порядок работы unSlider():
+
+1) runSlider():
+  - hideSlider()
+  - initSlider()
+  - addSliderEvents()
+
+2) addSliderEvents:
+  - updateFilter() перехват изменения ползунка слайдера
+  - chosenEffect ? hideSlider() : renderSlider(); перехват изменения радиокнопки изменения эффекта
+
+3) renderSlider():
+  - sliderHeadElement.classList.remove('hidden')
+  - updateSlider()
+  - updateFilter()
+
+*/
