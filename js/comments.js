@@ -48,11 +48,10 @@ const MESSAGES_ARRAY_BASIC = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?'
 ];
 
-
 /** пункт 5.1), генерация commentId */
+const COMMENTS_ID_LIMIT = 1000;
 
 const commentsIdsArray = []; // Создание пустого массива Ids
-const COMMENTS_ID_LIMIT = 1000;
 const refreshCommentsIdsArray = () => {
   for (let i = 1; i <= COMMENTS_ID_LIMIT; i++) {
     commentsIdsArray.push(i);

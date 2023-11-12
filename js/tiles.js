@@ -32,7 +32,6 @@ const createTile = ({ url, description, likes, comments, id}) => {
   // console.log(tile);
   tile.dataset.tileId = id;
   return tile;
-
 };
 
 const renderTiles = (photos) => {

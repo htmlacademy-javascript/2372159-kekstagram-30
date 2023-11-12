@@ -1,13 +1,5 @@
 //https://refreshless.com/nouislider/
 
-/** document.querySelector('.img-upload__preview'); */
-const imgPreviewElement = document.querySelector('.img-upload__preview');
-/** радиокнопки  document.querySelector('.effects__preview'); */
-const effectsPhotoElement = document.querySelector('.effects');
-/** document.querySelector('.effect-level'); */
-const sliderElement = document.querySelector('.effect-level__slider');
-const sliderHeadElement = document.querySelector('.img-upload__effect-level');
-// const effectLevelElement = document.querySelector('.effect-level__value');
 
 const PHOTO_EFFECTS = [
   {
@@ -63,6 +55,15 @@ const PHOTO_EFFECTS = [
 const initialEffect = PHOTO_EFFECTS[0];
 
 let chosenEffect = initialEffect;
+
+/** document.querySelector('.img-upload__preview'); */
+const imgPreviewElement = document.querySelector('.img-upload__preview');
+/** радиокнопки  document.querySelector('.effects__preview'); */
+const effectsPhotoElement = document.querySelector('.effects');
+/** document.querySelector('.effect-level'); */
+const sliderElement = document.querySelector('.effect-level__slider');
+const sliderHeadElement = document.querySelector('.img-upload__effect-level');
+// const effectLevelElement = document.querySelector('.effect-level__value');
 
 /** вызывается в единственной функции - в runSlider() */
 const initSlider = () => {
@@ -122,29 +123,32 @@ const renderSlider = () => {
 };
 
 
+const changeEffectHandler = (event) => {
+  const effectName = event.target.value;
+  const index = PHOTO_EFFECTS.findIndex((effect) => effect.name === effectName);
+  chosenEffect = PHOTO_EFFECTS[index];
+  if (index === 0) {
+    hideSlider();
+  } else {
+    renderSlider();
+  }
+};
+
 const addSliderEvents = () => {
-  // перехват изменения ползунка слайдера
-  sliderElement.noUiSlider.on('update', () => updateFilter());
-  // перехват изменения радиокнопки изменения эффекта
-  effectsPhotoElement.addEventListener('change', (event) => {
-    const effectName = event.target.value;
-    // console.log(event.target.value);
-    const index = PHOTO_EFFECTS.findIndex((effect) => effect.name === effectName);
-    chosenEffect = PHOTO_EFFECTS[index];
-    // index === 0 ? hideSlider() : showSlider();
-    if (index === 0) {
-      hideSlider();
-    } else {
-      // showSlider();
-      renderSlider();
-    }
-  });
+  sliderElement.noUiSlider.on('update', updateFilter);
+  effectsPhotoElement.addEventListener('change', changeEffectHandler);
+};
+
+const removeSliderEvents = () => {
+  sliderElement.noUiSlider.off('update', updateFilter);
+  effectsPhotoElement.removeEventListener('change', changeEffectHandler);
 };
 
 
 const destroySliderAndEvents = ()=>{
   chosenEffect = initialEffect;
   sliderElement.noUiSlider.destroy();
+  removeSliderEvents();
 };
 
 const runSlider = () => {

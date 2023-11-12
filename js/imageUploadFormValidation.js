@@ -1,23 +1,5 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 
-
-/** document.querySelector('.img-upload__text'); */
-const fieldset = document.querySelector('.img-upload__text');
-const hashtagsField = fieldset.querySelector('.text__hashtags');
-// const descriptionField = fieldset.querySelector('.text__description');
-
-const uploadForm = document.querySelector('.img-upload__form');
-
-// const uploadFormExitButton = document.querySelector('.img-upload__cancel');
-/** document.querySelector('.img-upload__submit'); */
-const submitFormButton = document.querySelector('.img-upload__submit');
-
-
-/* ######################################################################
-                            раздел валидации
-###################################################################### */
-
-
 // требования к hashtags
 // +1. хэш-тег начинается с символа # (решётка);
 // +2. строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
@@ -33,9 +15,17 @@ const HASHTAGS_MAX_COUNT = 5;
 // +11. если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 
 
-/* ######################################################################
-        раздел валидации и блокировки отправки
-###################################################################### */
+/** document.querySelector('.img-upload__text'); */
+const fieldset = document.querySelector('.img-upload__text');
+const hashtagsField = fieldset.querySelector('.text__hashtags');
+// const descriptionField = fieldset.querySelector('.text__description');
+
+const uploadForm = document.querySelector('.img-upload__form');
+
+// const uploadFormExitButton = document.querySelector('.img-upload__cancel');
+/** document.querySelector('.img-upload__submit'); */
+const submitFormButton = document.querySelector('.img-upload__submit');
+
 
 const pristine = new Pristine(uploadForm,{
   //отвечает за элемент, на который будут навешиваться служебные классы: валидно поле, невалидное
@@ -44,17 +34,21 @@ const pristine = new Pristine(uploadForm,{
 });
 
 //Слушает событие input на поле ввода fieldset, дополнительно блокирует кнопку
+const validatorEventHandler = () => {
+  const isValid = pristine.validate();
+  if (isValid) {
+    submitFormButton.disabled = false;
+  } else {
+    submitFormButton.disabled = true;
+  }
+};
+
 const addValidatorEvents = () => {
-  fieldset.addEventListener('input', () => {
-    /** const isValid = pristine.validate(); */
-    const isValid = pristine.validate();
-    // isValid ? submitFormButton.disabled = false : submitFormButton.disabled = true;
-    if (isValid) {
-      submitFormButton.disabled = false;
-    } else {
-      submitFormButton.disabled = true;
-    }
-  });
+  fieldset.addEventListener('input', validatorEventHandler);
+};
+
+const removeValidatorEvents = () => {
+  fieldset.removeEventListener('input', validatorEventHandler);
 };
 
 /**
@@ -81,7 +75,7 @@ pristine.addValidator(
   hashtagsField,
   hasRestriction1,
   `
-    Нарушен пункт 1: хэш-тег должен начинаться с символа #
+    Хэш-тег должен начинаться с символа "#"
   `,
   11,
   true);
@@ -97,7 +91,7 @@ pristine.addValidator(
   hashtagsField,
   hasRestriction6,
   `
-    Нарушен пункт 6: хэш-теги разделяются пробелами
+  Хэш-теги должны разделяться пробелами
   `,
   10,
   true);
@@ -113,7 +107,7 @@ pristine.addValidator(
   hashtagsField,
   hasHashOnly,
   `
-  Нарушен пункт 3: хеш-тег не может состоять только из одной решётки
+  Хеш-тег не может состоять только из одной решётки.
   `,
   9,
   true);
@@ -128,7 +122,7 @@ pristine.addValidator(
   hashtagsField,
   hasDuplicates,
   `
-  Нарушен пункт 7: дублирование хэш-тега
+  Хэш-теги не должны повторяться
   `,
   8,
   true);
@@ -139,7 +133,7 @@ const hasValidHashtagsNumber = (value) => (refineHashtags(value).length <= HASHT
 pristine.addValidator(
   hashtagsField,
   hasValidHashtagsNumber,
-  `Нарушен пункт 8: более ${HASHTAGS_MAX_COUNT} хэш-тегов`,
+  `Более ${HASHTAGS_MAX_COUNT} хэш-тегов`,
   7,
   true);
 
@@ -155,7 +149,7 @@ pristine.addValidator(
   hashtagsField,
   hashtagsMultiValidate,
   `
-    Нарушен пункт 2: строка после "#" должна состоять из букв и чисел.
+    Строка после "#" должна состоять из букв и чисел.
   `,
   6,
   true);
@@ -166,7 +160,7 @@ const runValidator = () => {
 };
 
 
-export { runValidator };
+export { runValidator, removeValidatorEvents };
 
 /**
  для отладки

@@ -1,5 +1,8 @@
 //https://refreshless.com/nouislider/
 
+/** Шаг масштабирования */
+const SCALE_STEP = 25;
+
 /** document.querySelector('.img-upload__preview'); */
 const imgPreviewElement = document.querySelector('.img-upload__preview');
 
@@ -9,44 +12,47 @@ const scaleControlValue = document.querySelector('.scale__control--value');
 const downScaleButton = document.querySelector('.scale__control--smaller');
 const upScaleButton = document.querySelector('.scale__control--bigger');
 
-/** Шаг масштабирования */
-const SCALE_STEP = 25;
-
-
 const convertScale = (value) => +value.replace('%', '');
 
 const scaleImage = (value) => {
   imgPreviewElement.style.transform = `scale(${value / 100})`;
 };
 
+//############### Event handlers ################
+const upScaleHandler = () => {
+  let newScale = convertScale(scaleControlValue.value) + SCALE_STEP;
+  newScale = newScale > 100 ? 100 : newScale;
+  scaleImage(newScale);
+  scaleControlValue.value = `${newScale}%`;
+};
+
+const downScaleHandler = () => {
+  let newScale = convertScale(scaleControlValue.value) - SCALE_STEP;
+  newScale = newScale < SCALE_STEP ? SCALE_STEP : newScale;
+  scaleImage(newScale);
+  scaleControlValue.value = `${newScale}%`;
+};
 
 const addScaleEvents = () => {
-  upScaleButton.addEventListener('click', () => {
-    let newScale = convertScale(scaleControlValue.value) + SCALE_STEP;
-    newScale = newScale > 100 ? 100 : newScale;
-    scaleImage(newScale);
-    scaleControlValue.value = `${newScale}%`;
-  });
-
-  downScaleButton.addEventListener('click', () => {
-    // console.log(scaleControlValue.value);
-    let newScale = convertScale(scaleControlValue.value) - SCALE_STEP;
-    newScale = newScale < SCALE_STEP ? SCALE_STEP : newScale;
-    scaleImage(newScale);
-    scaleControlValue.value = `${newScale}%`;
-    // console.log(scaleControlValue.value);
-  });
+  upScaleButton.addEventListener('click', upScaleHandler);
+  downScaleButton.addEventListener('click', downScaleHandler);
 };
 
+const removeScaleEvents = () => {
+  upScaleButton.removeEventListener('click', upScaleHandler);
+  downScaleButton.removeEventListener('click', downScaleHandler);
+};
 
-const resetScale = () => {
+const resetScaler = () => {
   scaleControlValue.value = '100%';
+  removeScaleEvents();
 };
+
+//############### main function ################
 
 const runScaler = () => {
-  resetScale();
   addScaleEvents();
 };
 
 
-export { runScaler }; // es module
+export { runScaler, resetScaler }; // es module

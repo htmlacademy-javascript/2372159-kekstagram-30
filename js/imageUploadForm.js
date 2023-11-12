@@ -1,15 +1,16 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 
 import { runSlider, destroySliderAndEvents } from './imageUploadFormEffects.js';
-import { runScaler } from './imageUploadFormScale.js';
-import { runValidator } from './imageUploadFormValidation.js';
+import { runScaler, resetScaler } from './imageUploadFormScale.js';
+import { runValidator, removeValidatorEvents } from './imageUploadFormValidation.js';
 
 /** document.querySelector('.img-upload__input'); */
 const imgUploadInput = document.querySelector('.img-upload__input');
 /** document.querySelector('.img-upload__overlay'); */
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 /** document.querySelector('.img-upload__preview img'); */
-const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const imgUploadPreview = document.querySelector('.img-upload__preview');
+const imgUploadPreviewImg = document.querySelector('.img-upload__preview img');
 /** document.querySelector('.img-upload__preview'); */
 const previewEffects = document.querySelectorAll('.effects__preview');
 
@@ -33,8 +34,15 @@ const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 const closeImgUploadOverlay = () => {
   imgUploadOverlay.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
+  // console.log(imgUploadPreviewImg.style);
+  imgUploadPreview.style = '';
+  // imgUploadPreview.reset();
+  // console.log(imgUploadPreviewImg.style);
   uploadForm.reset();
+  removeValidatorEvents();
   destroySliderAndEvents();
+  resetScaler();
+
   // document.querySelector('.img-upload__preview').style.filter = 'none';
   // resetScale
   // resetEffects
@@ -69,7 +77,7 @@ const imageUploadEvent = () => {
     const imageFile = imgUploadInput.files[0];
     const imageSrc = URL.createObjectURL(imageFile);
     // console.log(imgUploadPreview);
-    imgUploadPreview.src = imageSrc;
+    imgUploadPreviewImg.src = imageSrc;
     // console.log(imgUploadPreview);
     // console.log(document.querySelector('.effects__preview'));
     // console.log(imageSrc);
@@ -79,7 +87,7 @@ const imageUploadEvent = () => {
       // console.log(preview.style.backgroundImage);
       preview.style.backgroundImage = `url(${imageSrc})`;
     });
-    imgUploadPreview.addEventListener('load', () => {
+    imgUploadPreviewImg.addEventListener('load', () => {
       handleImageUpload();
     }, { once: true });
   });
