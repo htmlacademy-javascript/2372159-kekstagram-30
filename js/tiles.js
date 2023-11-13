@@ -6,6 +6,7 @@
 4. результат этого выбора сохраняется в переменную tileTemplate
 */
 
+import { addBigPictureEvents } from './bigPicture.js';
 
 const tileTemplate = document
   .querySelector('#picture').content.querySelector('.picture');
@@ -35,6 +36,7 @@ const createTile = ({ url, description, likes, comments, id}) => {
 };
 
 const renderTiles = (photos) => {
+  container.querySelectorAll('.picture').forEach((tile) => tile.remove());
   const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     const tile = createTile(photo);
@@ -43,6 +45,7 @@ const renderTiles = (photos) => {
   // console.log(fragment);
   // console.log(container);
   container.append(fragment);
+  addBigPictureEvents(photos);
 };
 
 

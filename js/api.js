@@ -1,5 +1,7 @@
 import { BASE_URL, ROUTE, METHOD, ERROR_MESSAGE } from './api_config.js';
 
+// https://up.htmlacademy.ru/javascript/29/module/11/item/16
+
 
 const uploadData = (route, errorMessage, method = METHOD.get, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })

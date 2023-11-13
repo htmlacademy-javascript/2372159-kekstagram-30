@@ -69,7 +69,7 @@ const handleImageUpload = () => {
   runSlider();
 };
 
-const imageUploadEvent = () => {
+const addImageUploadEvent = () => {
   // выбор нового изображения (вызов открытия окна редактора изображений)
   imgUploadInput.addEventListener('change', () => {
     // handleImageUpload();
@@ -94,7 +94,7 @@ const imageUploadEvent = () => {
 };
 
 
-export { imageUploadEvent };
+export { addImageUploadEvent };
 
 /**
  для отладки
