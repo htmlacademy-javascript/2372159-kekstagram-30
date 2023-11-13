@@ -18,6 +18,7 @@ try {
 } catch (err) {
   //eslint-disable-next-line
   alert('что-то пошло не так c getData() ');
+
 }
 
 // console.log(photosArray);
