@@ -6,7 +6,7 @@
 4. результат этого выбора сохраняется в переменную tileTemplate
 */
 
-import { addBigPictureEvents } from './bigPicture.js';
+import { addBigPictureEvents, removeSmallPicturesHandlers } from './bigPicture.js';
 
 const tileTemplate = document
   .querySelector('#picture').content.querySelector('.picture');
@@ -35,8 +35,8 @@ const createTile = ({ url, description, likes, comments, id}) => {
   return tile;
 };
 
-const renderTiles = (photos) => {
-  container.querySelectorAll('.picture').forEach((tile) => tile.remove());
+const renderTilesInitial = (photos) => {
+  // container.querySelectorAll('.picture').forEach((tile) => tile.remove()); // требуется отдельно изучить данную строку
   const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     const tile = createTile(photo);
@@ -45,8 +45,24 @@ const renderTiles = (photos) => {
   // console.log(fragment);
   // console.log(container);
   container.append(fragment);
+  // console.log('далее начинается addBigPictureEvents(photos);');
+  addBigPictureEvents(photos);
+};
+
+const renderTiles = (photos) => {
+  container.querySelectorAll('.picture').forEach((tile) => tile.remove()); // требуется отдельно изучить данную строку
+  removeSmallPicturesHandlers();
+  const fragment = document.createDocumentFragment();
+  photos.forEach((photo) => {
+    const tile = createTile(photo);
+    fragment.append(tile);
+  });
+  // console.log(fragment);
+  // console.log(container);
+  container.append(fragment);
+  // console.log('далее начинается addBigPictureEvents(photos);');
   addBigPictureEvents(photos);
 };
 
 
-export { renderTiles }; // es module
+export { renderTilesInitial, renderTiles }; // es module

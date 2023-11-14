@@ -40,7 +40,7 @@ https://up.htmlacademy.ru/javascript/30/tasks/9
   5.4) Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
 */
 
-import { generateComments } from './comments.js';
+import { generateComments } from './mock_comments.js';
 import { getRandomInt } from './common_functions.js';
 
 

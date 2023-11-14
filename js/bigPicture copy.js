@@ -147,49 +147,54 @@ const closeBigPicture = () => {
 
 // ######################## Обработчики событий ##################################
 
+// const smallPicturesClickHandler = (event) => {
+//   event.preventDefault();
+//   openBigPicture(event.target);
+// };
+
+/*
+const addSliderEvents = () => {
+  sliderElement.noUiSlider.on('update', updateFilter);
+  effectsPhotoElement.addEventListener('change', changeEffectHandler);
+};
+
+const changeEffectHandler = (event) => {
+  const effectName = event.target.value;
+  const index = PHOTO_EFFECTS.findIndex((effect) => effect.name === effectName);
+  chosenEffect = PHOTO_EFFECTS[index];
+  if (index === 0) {
+    hideSlider();
+  } else {
+    renderSlider();
+  }
+};
+
+*/
+
+
 const smallPictureHandler = (event, picture) => {
   event.preventDefault();
   openBigPicture(picture);
 };
 
 const addSmallPictureHandler = (picture) => {
-  const clickHandler = (event) => {
+  // console.log('addSmallPictureHandler = (picture)');
+  picture.addEventListener('click', (event) => {
     smallPictureHandler(event, picture);
-  };
-
-  picture.addEventListener('click', clickHandler);
-
-  // Store the reference to the event listener function
-  picture.clickHandler = clickHandler;
-};
-
-const removeSmallPictureHandler = (picture) => {
-  picture.removeEventListener('click', picture.clickHandler);
-};
-
-const removeSmallPicturesHandlers = () => {
-  smallPictures.forEach((picture) => {
-    removeSmallPictureHandler(picture);
   });
+  // picture.addEventListener('click', (event) => {
+  //   event.preventDefault();
+  //   openBigPicture(picture);
+  // });
 };
 
-// const smallPictureHandler = (event, picture) => {
-//   event.preventDefault();
-//   openBigPicture(picture);
-// };
-
-// const addSmallPictureHandler = (picture) => {
-//   picture.addEventListener('click', (event) => {
-//     smallPictureHandler(event, picture);
-//   });
-// };
-
-const addSmallPicturesHandlers = () => {
-  smallPictures.forEach((picture) => {
+const addSmallPicturesHandlers = (pictures) => {
+  // console.log('addSmallPicturesHandlers');
+  pictures.forEach((picture) => {
+    // console.log('forEach((picture)');
     addSmallPictureHandler(picture);
   });
 };
-
 
 const addBigPictureEvents = (photos) => {
   // передача ряда переменных в настоящий модуль
@@ -198,7 +203,14 @@ const addBigPictureEvents = (photos) => {
 
   // клик по маленькой картинке для вызова отрисовки большой картинки
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  addSmallPicturesHandlers();
+  addSmallPicturesHandlers(photos);
+  // smallPictures.forEach((picture) => {
+  //   picture.addEventListener('click', (event) => {
+  //     event.preventDefault();
+  //     openBigPicture(picture);
+  //   });
+  // });
+
 
   loadMoreCommentsButton.addEventListener('click', () => {
     addMoreComments();
@@ -222,4 +234,4 @@ const addBigPictureEvents = (photos) => {
 // ##############клик по маленькой картинке для вызова отрисовки большой картинки##################
 
 
-export { addBigPictureEvents, removeSmallPicturesHandlers }; // es module
+export { addBigPictureEvents }; // es module
