@@ -9,7 +9,7 @@ import { addImageUploadEvent } from './imageUploadForm.js';
 import { getData } from './api.js';
 // import { showFilters, initFilters } from './filters.js';
 import { initSorters } from './sorters.js';
-
+// import { showSuccessMessage } from './messages.js';
 
 // const photosArray = generatePhotosArray();
 // const photosArray = getData();
@@ -29,6 +29,8 @@ try {
   // addBigPictureEvents(photosArrayDebounced);
   addImageUploadEvent();
   // initFilters(photosArray, renderTiles);
+  // showSuccessMessage();
+
 } catch (err) {
   //eslint-disable-next-line
   alert('что-то пошло не так c getData() ');
