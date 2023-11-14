@@ -2,31 +2,13 @@
 // https://up.htmlacademy.ru/javascript/30/criteries
 
 // import { generatePhotosArray } from './mock_photosArray.js';
-import { renderTilesInitial, renderTiles } from './tiles.js';
+// import { renderTilesInitial, renderTiles } from './tiles.js';
+import { renderTilesInitial, debouncedRenderTiles } from './tiles.js';
 // import { addBigPictureEvents } from './bigPicture.js';
 import { addImageUploadEvent } from './imageUploadForm.js';
 import { getData } from './api.js';
 // import { showFilters, initFilters } from './filters.js';
-import { initFilters } from './filters.js';
-
-const debounce = (callback, timeoutDelay = 1000) => {
-  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
-  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
-  let timeoutId;
-
-  return (...rest) => {
-    // Перед каждым новым вызовом удаляем предыдущий таймаут,
-    // чтобы они не накапливались
-    clearTimeout(timeoutId);
-
-    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-
-    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
-    // пока действие совершается чаще, чем переданная задержка timeoutDelay
-  };
-};
-
+import { initSorters } from './sorters.js';
 
 
 // const photosArray = generatePhotosArray();
@@ -40,7 +22,7 @@ try {
   // const debouncedRenderTiles = debounce(renderTiles(photosArray));
   // debouncedRenderTiles();
   renderTilesInitial(photosArray);
-  initFilters(photosArray, renderTiles);
+  initSorters(photosArray, debouncedRenderTiles);
   // renderTiles(photosArrayDebounced);
   // initFilters(photosArray, debouncedRenderTiles);
   // addBigPictureEvents(photosArray); // перенесено в tiles

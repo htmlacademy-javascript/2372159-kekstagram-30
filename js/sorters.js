@@ -37,6 +37,7 @@ const getFilteredPictures = () => {
   }
 };
 
+//callback = renderTiles
 const setOnFilterClick = (callback) => {
 // const setOnFilterClick = () => {
   filterElement.addEventListener('click', (evt) => {
@@ -56,6 +57,7 @@ const setOnFilterClick = (callback) => {
       .querySelector('.img-filters__button--active')
       .classList.remove('img-filters__button--active');
     currentFilter = clickedButton.id;
+    clickedButton.classList.add('img-filters__button--active');
     // console.log(currentFilter);
     // getFilteredPictures()
     // console.log(getFilteredPictures());
@@ -64,10 +66,10 @@ const setOnFilterClick = (callback) => {
 
 };
 
-export const showFilters = () => filterElement.classList.remove('img-filters--inactive');
+export const showSorters = () => filterElement.classList.remove('img-filters--inactive');
 
-export const initFilters = (initialPhotosArray, callback) => {
-  showFilters();
+export const initSorters = (initialPhotosArray, callback) => {
+  showSorters();
   // Копирует все элементы массива loadedPictures
   // Поверхностное копирование const deepCopyArray = deepCopy(originalArray);
   sortedPhotosArray = [...initialPhotosArray];
