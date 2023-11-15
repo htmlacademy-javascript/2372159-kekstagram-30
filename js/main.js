@@ -10,10 +10,11 @@ import { getData } from './api.js';
 // import { showFilters, initFilters } from './filters.js';
 import { initSorters } from './sorters.js';
 // import { showSuccessMessage } from './messages.js';
-import { showErrorMessage } from './messages.js';
+import { showMessage } from './api_messages.js';
 
 // const photosArray = generatePhotosArray();
 // const photosArray = getData();
+// showMessage('Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных');
 try {
   const photosArray = await getData();
   // renderTiles(photosArray);
@@ -32,9 +33,10 @@ try {
   // initFilters(photosArray, renderTiles);
   // showSuccessMessage();
 
-} catch (err) {
+} catch (error) {
   //eslint-disable-next-line
-  alert('что-то пошло не так c getData() ');
+  // alert('что-то пошло не так c getData() ');
+  showMessage(error.message);
 
 }
 

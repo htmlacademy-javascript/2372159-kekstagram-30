@@ -82,7 +82,7 @@ const debounce = (callback, timeoutDelay = 1000) => {
   };
 };
 
-const debouncedRenderTiles = debounce(renderTiles, 600);
+const debouncedRenderTiles = debounce(renderTiles, 500);
 
 // export { renderTilesInitial, renderTiles}; // es module
 export { renderTilesInitial, debouncedRenderTiles }; // es module
