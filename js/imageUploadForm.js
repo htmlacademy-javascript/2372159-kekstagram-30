@@ -3,6 +3,7 @@
 import { runSlider, destroySliderAndEvents } from './imageUploadFormEffects.js';
 import { runScaler, resetScaler } from './imageUploadFormScale.js';
 import { runValidator, removeValidatorEvents } from './imageUploadFormValidation.js';
+import { addSubmitEventListener, removeSubmitEventListener } from './imageUploadFormSubmit.js';
 
 /** document.querySelector('.img-upload__input'); */
 const imgUploadInput = document.querySelector('.img-upload__input');
@@ -42,6 +43,8 @@ const closeImgUploadOverlay = () => {
   removeValidatorEvents();
   destroySliderAndEvents();
   resetScaler();
+  removeSubmitEventListener();
+
 
   // document.querySelector('.img-upload__preview').style.filter = 'none';
   // resetScale
@@ -60,6 +63,7 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+
 /** открытие окна редактора изображений */
 const handleImageUpload = () => {
   imgUploadOverlay.classList.remove('hidden');
@@ -67,6 +71,8 @@ const handleImageUpload = () => {
   runValidator();
   runScaler();
   runSlider();
+  addSubmitEventListener();
+
 };
 
 const addImageUploadEvent = () => {
@@ -94,7 +100,7 @@ const addImageUploadEvent = () => {
 };
 
 
-export { addImageUploadEvent };
+export { addImageUploadEvent, closeImgUploadOverlay };
 
 /**
  для отладки

@@ -5,14 +5,21 @@ const errorTemplate = document.querySelector('#error').content.querySelector('.e
 // const errorTemplate = document.getElementById('error').content.getElementsByClassName('error');
 // https://up.htmlacademy.ru/javascript/29/module/11/item/16
 
-const closeSuccessMessage = ()=>{
-  document.body.querySelector('.success').remove();
+const closeMessage = ()=>{
+  const successElement = document.body.querySelector('.success');
+  if (successElement) {
+    successElement.remove();
+  }
+  const errorElement = document.body.querySelector('.error');
+  if (errorElement) {
+    errorElement.remove();
+  }
   document.body.classList.remove('has-modal');
 };
 
 const escapeButtonHandler = (event)=>{
   if (event.key === 'Escape') {
-    closeSuccessMessage();
+    closeMessage();
   }
 };
 
@@ -20,9 +27,10 @@ const messageMissClick = (evt)=>{
   // evt.preventDefault();
   // почему работает не так?
 
-  if (!evt.target.closest('.success__inner')) {
-    closeSuccessMessage();
+  if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
+    return;
   }
+  closeMessage();
 };
 
 const showSuccessMessage = ()=>{
@@ -32,34 +40,28 @@ const showSuccessMessage = ()=>{
 
   const successButton = successBlock.querySelector('.success__button');
 
-  successButton.addEventListener('click', closeSuccessMessage, { once: true });
+  successButton.addEventListener('click', closeMessage, { once: true });
   document.body.addEventListener('click', messageMissClick, { once: true });
   document.body.addEventListener('keydown', escapeButtonHandler, { once: true });
 };
 
-
-function closeErrorMessage (){
-  document.body.querySelector('.error').remove();
-  document.body.classList.remove('has-modal');
-  // document.body.removeEventListener('click',onErrorDocumentClick);
-  // document.removeEventListener('keydown', onCloseErrorMessage);
-}
 
 const showErrorMessage = ()=>{
   const errorBlock = errorTemplate.cloneNode(true);
   const errorButton = errorBlock.querySelector('.error__button');
   document.body.append(errorBlock);
   document.body.classList.add('has-modal');
-  errorButton.addEventListener('click', closeErrorMessage, { once: true });
-  // document.body.addEventListener('keydown',onCloseErrorMessage, { once: true });
-  // document.body.addEventListener('click',onErrorDocumentClick, { once: true });
+  errorButton.addEventListener('click', closeMessage, { once: true });
+  document.body.addEventListener('click', messageMissClick, { once: true });
+  document.body.addEventListener('keydown', escapeButtonHandler, { once: true });
 
 };
+//В таком случае вся введённая пользователем информация сохраняется, чтобы у него была возможность отправить форму повторно.
+//как так сделать?
 
-
-
-showSuccessMessage();
+// showErrorMessage();
+// showSuccessMessage();
 
 // console.log(successTemplate);
 
-// export { showSuccessMessage };
+export { showSuccessMessage, showErrorMessage };
