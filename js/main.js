@@ -10,6 +10,7 @@ import { getData } from './api.js';
 // import { showFilters, initFilters } from './filters.js';
 import { initSorters } from './sorters.js';
 // import { showSuccessMessage } from './messages.js';
+import { showErrorMessage } from './messages.js';
 
 // const photosArray = generatePhotosArray();
 // const photosArray = getData();

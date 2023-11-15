@@ -190,6 +190,13 @@ const addSmallPicturesHandlers = () => {
   });
 };
 
+// закрытие большой картинки по [Esc], если открыта большая картинка
+const closeBigPictureOnEscape = (event) => {
+  const isHidden = bigPictureElement.classList.contains('hidden');
+  if (event.key === 'Escape' && !isHidden) {
+    closeBigPicture();
+  }
+};
 
 const addBigPictureEvents = (photos) => {
   // передача ряда переменных в настоящий модуль
@@ -200,26 +207,30 @@ const addBigPictureEvents = (photos) => {
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   addSmallPicturesHandlers();
 
-  loadMoreCommentsButton.addEventListener('click', () => {
-    addMoreComments();
-  });
+  loadMoreCommentsButton.addEventListener('click', addMoreComments);
+
 
   // закрытие большой картинки по [Esc], если открыта большая картинка
-  document.addEventListener('keydown', (event) => {
-    const isHidden = bigPictureElement.classList.contains('hidden');
-    if (event.key === 'Escape' && !isHidden) {
-      closeBigPicture();
-    }
-  });
+  document.addEventListener('keydown', closeBigPictureOnEscape);
 
   // закрытие большой картинки по клику на пиктограмму крестика большой картинки
-  closeBigPictureButton.addEventListener('click', () => {
-    closeBigPicture();
-  });
+  closeBigPictureButton.addEventListener('click', closeBigPicture);
 
 };
+
+function removeBigPictureEvents() {
+  loadMoreCommentsButton.removeEventListener('click', addMoreComments);
+
+  // закрытие большой картинки по [Esc], если открыта большая картинка
+  document.removeEventListener('keydown', closeBigPictureOnEscape);
+
+  // закрытие большой картинки по клику на пиктограмму крестика большой картинки
+  closeBigPictureButton.removeEventListener('click', closeBigPicture);
+
+  removeSmallPicturesHandlers();
+}
 
 // ##############клик по маленькой картинке для вызова отрисовки большой картинки##################
 
 
-export { addBigPictureEvents, removeSmallPicturesHandlers }; // es module
+export { addBigPictureEvents, removeBigPictureEvents }; // es module
