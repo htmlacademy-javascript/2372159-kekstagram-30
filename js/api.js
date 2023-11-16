@@ -18,7 +18,7 @@ const uploadData = (route, errorMessage, method = METHOD.get, body = null) =>
 const getData = () => uploadData(ROUTE.getData, ERROR_MESSAGE.getData);
 
 const sendData = (body) => {
-  uploadData(ROUTE.getData, ERROR_MESSAGE.getData, METHOD.post, body);
+  uploadData(ROUTE.sendData, ERROR_MESSAGE.sendData, METHOD.post, body);
 
 };
 
