@@ -20,7 +20,7 @@ const fieldset = document.querySelector('.img-upload__text');
 const hashtagsField = fieldset.querySelector('.text__hashtags');
 const descriptionField = fieldset.querySelector('.text__description');
 
-const uploadForm = document.querySelector('.img-upload__form');
+// const uploadForm = document.querySelector('.img-upload__form');
 
 const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 /** document.querySelector('.img-upload__submit'); */
@@ -34,15 +34,17 @@ const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 // закрытие окна редактора изображений
 const closeImgUploadOverlay = () => {
   imgUploadOverlay.classList.add('hidden');
+  // return;
   document.querySelector('body').classList.remove('modal-open');
   // console.log(imgUploadPreviewImg.style);
   imgUploadPreview.style = '';
   // imgUploadPreview.reset();
   // console.log(imgUploadPreviewImg.style);
-  uploadForm.reset();
+  // uploadForm.reset();
   removeValidatorEvents();
   destroySliderAndEvents();
   resetScaler();
+  // return;
   removeSubmitEventListener();
 
 
@@ -66,11 +68,14 @@ document.addEventListener('keydown', (event) => {
 
 /** открытие окна редактора изображений */
 const handleImageUpload = () => {
+  // console.log('добавление handleImageUpload');
   imgUploadOverlay.classList.remove('hidden');
   document.querySelector('body').classList.add('modal-open');
   runValidator();
   runScaler();
   runSlider();
+  // console.log('тест');
+  // console.log('добавление обработчика на submit');
   addSubmitEventListener();
 
 };
@@ -93,9 +98,8 @@ const addImageUploadEvent = () => {
       // console.log(preview.style.backgroundImage);
       preview.style.backgroundImage = `url(${imageSrc})`;
     });
-    imgUploadPreviewImg.addEventListener('load', () => {
-      handleImageUpload();
-    }, { once: true });
+    // console.log('добавление handleImageUpload');
+    imgUploadPreviewImg.addEventListener('load', handleImageUpload, { once: true });
   });
 };
 

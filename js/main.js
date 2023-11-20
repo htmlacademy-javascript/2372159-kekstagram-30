@@ -6,17 +6,19 @@
 import { renderTilesInitial, debouncedRenderTiles } from './tiles.js';
 // import { addBigPictureEvents } from './bigPicture.js';
 import { addImageUploadEvent } from './imageUploadForm.js';
-import { getData } from './api.js';
+// import { getData } from './api.js';
+import { transferData } from './api.js';
 // import { showFilters, initFilters } from './filters.js';
 import { initSorters } from './sorters.js';
 // import { showSuccessMessage } from './messages.js';
 import { showMessage } from './api_messages.js';
 
+
 // const photosArray = generatePhotosArray();
 // const photosArray = getData();
 // showMessage('Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных');
 try {
-  const photosArray = await getData();
+  const photosArray = await transferData('get');
   // renderTiles(photosArray);
   // showFilters();
   //устранение дребезга, чтобы это ни значило

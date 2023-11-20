@@ -1,5 +1,6 @@
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+import { closeImgUploadOverlay } from './imageUploadForm.js';
 
 // const successTemplate = document.getElementById('success').content.getElementsByClassName('success');
 // const errorTemplate = document.getElementById('error').content.getElementsByClassName('error');
@@ -15,6 +16,7 @@ const closeMessage = ()=>{
     errorElement.remove();
   }
   document.body.classList.remove('has-modal');
+  // closeImgUploadOverlay();
 };
 
 const escapeButtonHandler = (event)=>{
@@ -26,11 +28,11 @@ const escapeButtonHandler = (event)=>{
 const messageMissClick = (evt)=>{
   // evt.preventDefault();
   // почему работает не так?
-
   if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
     return;
   }
   closeMessage();
+
 };
 
 const showSuccessMessage = ()=>{

@@ -140,7 +140,7 @@ const addSliderEvents = () => {
 };
 
 const removeSliderEvents = () => {
-  sliderElement.noUiSlider.off('update', updateFilter);
+  // sliderElement.noUiSlider.off('update', updateFilter);
   effectsPhotoElement.removeEventListener('change', changeEffectHandler);
 };
 
