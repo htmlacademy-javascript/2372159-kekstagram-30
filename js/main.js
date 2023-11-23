@@ -1,5 +1,6 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 // https://up.htmlacademy.ru/javascript/30/criteries
+// https://up.htmlacademy.ru/javascript/30/tasks/23
 
 // import { generatePhotosArray } from './mock_photosArray.js';
 // import { renderTilesInitial, renderTiles } from './tiles.js';
@@ -18,6 +19,7 @@ import { showMessage } from './api_messages.js';
 // const photosArray = getData();
 // showMessage('Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных Идёт загрузка данных');
 try {
+  // const photosArray = await getData();
   const photosArray = await transferData('get');
   // renderTiles(photosArray);
   // showFilters();

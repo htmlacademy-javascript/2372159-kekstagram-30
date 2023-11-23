@@ -80,17 +80,19 @@ const checkLoadMoreCommentsButton = () => {
 // (первоначальное) изготовление первых комментариев для большой картинки при открытии большой картинки
 const makeBigPictureCommentsInitial = () => {
   photoComments = photo.comments;
+  // console.log(photoComments);
   commentsNumberShownElement.textContent = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   commentsNumberShown = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   for (let i = 1; i <= commentsNumberShown; i++) {
     const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
-    liCommentElement.src = photoComments[i - 1].avatar;
-    liCommentElement.alt = photoComments[i - 1].name;
+    liCommentElement.querySelector('img').src = photoComments[i - 1].avatar;
+    // console.log(photoComments[i - 1].avatar);
+    liCommentElement.querySelector('img').alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
     bigPictureSocialCommentsElement.appendChild(liCommentElement);
-    //console.log(liCommentElement);
+    // console.log(liCommentElement);
     //liCommentElement.
   }
   commentsNumberShownElement.textContent = commentsNumberShown;
@@ -103,10 +105,10 @@ const makeBigPictureCommentsInitial = () => {
 const addMoreComments = () => {
   commentsNumberShown = commentsNumberShown + moreCommentsNumber;
   commentsNumberShown = commentsNumberShown <= photoComments.length ? commentsNumberShown : photoComments.length;
-  for (let i = +commentsNumberShownElement.textContent; i <= commentsNumberShown; i++) {
+  for (let i = +commentsNumberShownElement.textContent + 1; i <= commentsNumberShown; i++) {
     const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
-    liCommentElement.src = photoComments[i - 1].avatar;
-    liCommentElement.alt = photoComments[i - 1].name;
+    liCommentElement.querySelector('img').src = photoComments[i - 1].avatar;
+    liCommentElement.querySelector('img').alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
     bigPictureSocialCommentsElement.appendChild(liCommentElement);
     //console.log(liCommentElement);
