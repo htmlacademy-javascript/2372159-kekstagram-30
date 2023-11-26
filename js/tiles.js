@@ -6,6 +6,7 @@
 4. результат этого выбора сохраняется в переменную tileTemplate
 */
 
+import { addBigPictureEvents, removeBigPictureEvents } from './bigPicture.js';
 
 const tileTemplate = document
   .querySelector('#picture').content.querySelector('.picture');
@@ -34,7 +35,8 @@ const createTile = ({ url, description, likes, comments, id}) => {
   return tile;
 };
 
-const renderTiles = (photos) => {
+const renderTilesInitial = (photos) => {
+  // container.querySelectorAll('.picture').forEach((tile) => tile.remove()); // требуется отдельно изучить данную строку
   const fragment = document.createDocumentFragment();
   photos.forEach((photo) => {
     const tile = createTile(photo);
@@ -43,7 +45,44 @@ const renderTiles = (photos) => {
   // console.log(fragment);
   // console.log(container);
   container.append(fragment);
+  // console.log('далее начинается addBigPictureEvents(photos);');
+  addBigPictureEvents(photos);
 };
 
+const renderTiles = (photos) => {
+  container.querySelectorAll('.picture').forEach((tile) => tile.remove()); // требуется отдельно изучить данную строку
+  removeBigPictureEvents();
+  const fragment = document.createDocumentFragment();
+  photos.forEach((photo) => {
+    const tile = createTile(photo);
+    fragment.append(tile);
+  });
+  // console.log(fragment);
+  // console.log(container);
+  container.append(fragment);
+  // console.log('далее начинается addBigPictureEvents(photos);');
+  addBigPictureEvents(photos);
+};
 
-export { renderTiles }; // es module
+const debounce = (callback, timeoutDelay = 1000) => {
+  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+    // пока действие совершается чаще, чем переданная задержка timeoutDelay
+  };
+};
+
+const debouncedRenderTiles = debounce(renderTiles, 500);
+
+// export { renderTilesInitial, renderTiles}; // es module
+export { renderTilesInitial, debouncedRenderTiles }; // es module

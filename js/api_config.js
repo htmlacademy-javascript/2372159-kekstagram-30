@@ -2,7 +2,7 @@ export const BASE_URL = 'https://30.javascript.pages.academy/kekstagram';
 
 export const ROUTE = {
   getData: '/data', //и что это?
-  sendDat: '/',
+  sendData: '/',
 };
 
 export const METHOD = {

@@ -77,20 +77,22 @@ const checkLoadMoreCommentsButton = () => {
 };
 
 
-// изготовление комментариев для большой картинки при открытии большой картинки
+// (первоначальное) изготовление первых комментариев для большой картинки при открытии большой картинки
 const makeBigPictureCommentsInitial = () => {
   photoComments = photo.comments;
+  // console.log(photoComments);
   commentsNumberShownElement.textContent = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   commentsNumberShown = photoComments.length < moreCommentsNumber ? photoComments.length : moreCommentsNumber;
 
   for (let i = 1; i <= commentsNumberShown; i++) {
     const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
-    liCommentElement.src = photoComments[i - 1].avatar;
-    liCommentElement.alt = photoComments[i - 1].name;
+    liCommentElement.querySelector('img').src = photoComments[i - 1].avatar;
+    // console.log(photoComments[i - 1].avatar);
+    liCommentElement.querySelector('img').alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
     bigPictureSocialCommentsElement.appendChild(liCommentElement);
-    //console.log(liCommentElement);
+    // console.log(liCommentElement);
     //liCommentElement.
   }
   commentsNumberShownElement.textContent = commentsNumberShown;
@@ -103,10 +105,10 @@ const makeBigPictureCommentsInitial = () => {
 const addMoreComments = () => {
   commentsNumberShown = commentsNumberShown + moreCommentsNumber;
   commentsNumberShown = commentsNumberShown <= photoComments.length ? commentsNumberShown : photoComments.length;
-  for (let i = +commentsNumberShownElement.textContent; i <= commentsNumberShown; i++) {
+  for (let i = +commentsNumberShownElement.textContent + 1; i <= commentsNumberShown; i++) {
     const liCommentElement = bigPictureSocialCommentElementTemplate.cloneNode(true);
-    liCommentElement.src = photoComments[i - 1].avatar;
-    liCommentElement.alt = photoComments[i - 1].name;
+    liCommentElement.querySelector('img').src = photoComments[i - 1].avatar;
+    liCommentElement.querySelector('img').alt = photoComments[i - 1].name;
     liCommentElement.querySelector('.social__text').textContent = photoComments[i - 1].message;
     bigPictureSocialCommentsElement.appendChild(liCommentElement);
     //console.log(liCommentElement);
@@ -116,7 +118,12 @@ const addMoreComments = () => {
   checkLoadMoreCommentsButton();
 };
 
-// операции открытия и отрисовки большой картинки
+/**
+ * операции открытия и отрисовки большой картинки +
+ * + makeBigPictureCommentsInitial();
+ * + bigPictureElement.classList.remove('hidden');
+ * + document.body.classList.add('modal-open');
+ */
 const openBigPicture = (picture) => {
   const tileId = +picture.getAttribute('data-tile-id');
   photo = photosArray.find((item) => item.id === tileId);
@@ -140,37 +147,82 @@ const closeBigPicture = () => {
   bigPictureSocialCommentsElement.innerHTML = '';
 };
 
+// ######################## Обработчики событий ##################################
+
+const smallPictureHandler = (event, picture) => {
+  event.preventDefault();
+  openBigPicture(picture);
+};
+
+const addSmallPictureHandler = (picture) => {
+  const clickHandler = (event) => {
+    smallPictureHandler(event, picture);
+  };
+
+  picture.addEventListener('click', clickHandler);
+
+  // Store the reference to the event listener function
+  picture.clickHandler = clickHandler;
+};
+
+const removeSmallPictureHandler = (picture) => {
+  picture.removeEventListener('click', picture.clickHandler);
+};
+
+const removeSmallPicturesHandlers = () => {
+  smallPictures.forEach((picture) => {
+    removeSmallPictureHandler(picture);
+  });
+};
+
+
+const addSmallPicturesHandlers = () => {
+  smallPictures.forEach((picture) => {
+    addSmallPictureHandler(picture);
+  });
+};
+
+// закрытие большой картинки по [Esc], если открыта большая картинка
+const closeBigPictureOnEscape = (event) => {
+  const isHidden = bigPictureElement.classList.contains('hidden');
+  if (event.key === 'Escape' && !isHidden) {
+    closeBigPicture();
+  }
+};
+
 const addBigPictureEvents = (photos) => {
   // передача ряда переменных в настоящий модуль
   smallPictures = document.querySelectorAll('.picture');
   photosArray = photos;
 
   // клик по маленькой картинке для вызова отрисовки большой картинки
-  smallPictures.forEach((picture) => {
-    picture.addEventListener('click', (event) => {
-      event.preventDefault();
-      openBigPicture(picture);
-    });
-  });
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  addSmallPicturesHandlers();
 
-  loadMoreCommentsButton.addEventListener('click', () => {
-    addMoreComments();
-  });
+  loadMoreCommentsButton.addEventListener('click', addMoreComments);
+
 
   // закрытие большой картинки по [Esc], если открыта большая картинка
-  document.addEventListener('keydown', (event) => {
-    const isHidden = bigPictureElement.classList.contains('hidden');
-    if (event.key === 'Escape' && !isHidden) {
-      closeBigPicture();
-    }
-  });
+  document.addEventListener('keydown', closeBigPictureOnEscape);
 
   // закрытие большой картинки по клику на пиктограмму крестика большой картинки
-  closeBigPictureButton.addEventListener('click', () => {
-    closeBigPicture();
-  });
+  closeBigPictureButton.addEventListener('click', closeBigPicture);
 
 };
 
+function removeBigPictureEvents() {
+  loadMoreCommentsButton.removeEventListener('click', addMoreComments);
 
-export { addBigPictureEvents }; // es module
+  // закрытие большой картинки по [Esc], если открыта большая картинка
+  document.removeEventListener('keydown', closeBigPictureOnEscape);
+
+  // закрытие большой картинки по клику на пиктограмму крестика большой картинки
+  closeBigPictureButton.removeEventListener('click', closeBigPicture);
+
+  removeSmallPicturesHandlers();
+}
+
+// ##############клик по маленькой картинке для вызова отрисовки большой картинки##################
+
+
+export { addBigPictureEvents, removeBigPictureEvents }; // es module

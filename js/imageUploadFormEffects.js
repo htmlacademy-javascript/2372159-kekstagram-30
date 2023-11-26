@@ -63,7 +63,7 @@ const effectsPhotoElement = document.querySelector('.effects');
 /** document.querySelector('.effect-level'); */
 const sliderElement = document.querySelector('.effect-level__slider');
 const sliderHeadElement = document.querySelector('.img-upload__effect-level');
-// const effectLevelElement = document.querySelector('.effect-level__value');
+
 
 /** вызывается в единственной функции - в runSlider() */
 const initSlider = () => {
@@ -77,8 +77,6 @@ const initSlider = () => {
     step: initialEffect.step,
     connect: 'lower',
   });
-  // imgPreviewElement.style.filter = 'none';
-  // console.log(sliderElement.noUiSlider.get());
 };
 
 /** вызывается в:
@@ -94,15 +92,11 @@ const updateSlider = () => {
     start: chosenEffect.max,
     connect: 'lower',
   });
-  // sliderElement.noUiSlider.set(chosenEffect.max);
-  // console.log(sliderElement.noUiSlider.get());
 };
 
 const updateFilter = () => {
   const effect = chosenEffect.style;
   const value = sliderElement.noUiSlider.get();
-  // console.log(sliderElement.noUiSlider.get());
-  // console.log(value);
   const unit = chosenEffect.unit;
   imgPreviewElement.style.filter = `${effect}(${value}${unit})`;
 };
@@ -140,7 +134,7 @@ const addSliderEvents = () => {
 };
 
 const removeSliderEvents = () => {
-  sliderElement.noUiSlider.off('update', updateFilter);
+  // sliderElement.noUiSlider.off('update', updateFilter);
   effectsPhotoElement.removeEventListener('change', changeEffectHandler);
 };
 

@@ -1,34 +1,23 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 // https://up.htmlacademy.ru/javascript/30/criteries
+// https://up.htmlacademy.ru/javascript/30/tasks/23
 
-// import { generatePhotosArray } from './photosArray.js';
-import { renderTiles } from './tiles.js';
-import { addBigPictureEvents } from './bigPicture.js';
-import { imageUploadEvent } from './imageUploadForm.js';
-import { getData } from './api.js';
+import { renderTilesInitial, debouncedRenderTiles } from './tiles.js';
+import { addImageUploadEvent } from './imageUploadForm.js';
+import { transferData } from './api.js';
+import { initSorters } from './sorters.js';
+import { showMessage } from './api_messages.js';
 
 
-// const photosArray = generatePhotosArray();
-// const photosArray = getData();
 try {
-  const photosArray = await getData();
-  renderTiles(photosArray);
-  addBigPictureEvents(photosArray);
-  imageUploadEvent();
-} catch (err) {
-  //eslint-disable-next-line
-  alert('что-то пошло не так c getData() ');
+  const photosArray = await transferData('get');
+  renderTilesInitial(photosArray);
+  initSorters(photosArray, debouncedRenderTiles);
+  addImageUploadEvent();
 
+} catch (error) {
+  showMessage(error.message);
 }
-
-// console.log(photosArray);
-
-// renderTiles(photosArray);
-// addBigPictureEvents(photosArray);
-// imageUploadEvent();
-
-
-// export const document = window.document;
 
 
 //npx cypress open

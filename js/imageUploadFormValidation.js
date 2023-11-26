@@ -1,28 +1,16 @@
 // https://up.htmlacademy.ru/javascript/30/project/kekstagram#specification
 
-// требования к hashtags
-// +1. хэш-тег начинается с символа # (решётка);
-// +2. строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.;
-// +3. хеш-тег не может состоять только из одной решётки;
-// +4. максимальная длина одного хэш-тега 20 символов, включая решётку;
+
 const MAX_HASHTAG_LENGTH = 20;
-// +5. хэш-теги нечувствительны к регистру: #ХэшТег и #хэштег считаются одним и тем же тегом;
-// +6. хэш-теги разделяются пробелами;
-// +7. один и тот же хэш-тег не может быть использован дважды;
-// +8. нельзя указать больше пяти хэш-тегов;
 const HASHTAGS_MAX_COUNT = 5;
-// +10. хэш-теги необязательны;
-// +11. если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 
 
 /** document.querySelector('.img-upload__text'); */
 const fieldset = document.querySelector('.img-upload__text');
 const hashtagsField = fieldset.querySelector('.text__hashtags');
-// const descriptionField = fieldset.querySelector('.text__description');
 
 const uploadForm = document.querySelector('.img-upload__form');
 
-// const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 /** document.querySelector('.img-upload__submit'); */
 const submitFormButton = document.querySelector('.img-upload__submit');
 

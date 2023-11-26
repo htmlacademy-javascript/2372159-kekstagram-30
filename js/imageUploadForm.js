@@ -3,6 +3,7 @@
 import { runSlider, destroySliderAndEvents } from './imageUploadFormEffects.js';
 import { runScaler, resetScaler } from './imageUploadFormScale.js';
 import { runValidator, removeValidatorEvents } from './imageUploadFormValidation.js';
+import { addSubmitEventListener, removeSubmitEventListener } from './imageUploadFormSubmit.js';
 
 /** document.querySelector('.img-upload__input'); */
 const imgUploadInput = document.querySelector('.img-upload__input');
@@ -19,7 +20,7 @@ const fieldset = document.querySelector('.img-upload__text');
 const hashtagsField = fieldset.querySelector('.text__hashtags');
 const descriptionField = fieldset.querySelector('.text__description');
 
-const uploadForm = document.querySelector('.img-upload__form');
+// const uploadForm = document.querySelector('.img-upload__form');
 
 const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 /** document.querySelector('.img-upload__submit'); */
@@ -30,22 +31,31 @@ const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 ###################################################################### */
 
 
+/** открытие окна редактора изображений */
+const handleImageUpload = () => {
+  // console.log('добавление handleImageUpload');
+  imgUploadOverlay.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+  runValidator();
+  runScaler();
+  runSlider();
+  // console.log('тест');
+  // console.log('добавление обработчика на submit');
+  addSubmitEventListener();
+
+};
+
+
 // закрытие окна редактора изображений
 const closeImgUploadOverlay = () => {
   imgUploadOverlay.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
-  // console.log(imgUploadPreviewImg.style);
   imgUploadPreview.style = '';
-  // imgUploadPreview.reset();
-  // console.log(imgUploadPreviewImg.style);
-  uploadForm.reset();
   removeValidatorEvents();
   destroySliderAndEvents();
   resetScaler();
-
-  // document.querySelector('.img-upload__preview').style.filter = 'none';
-  // resetScale
-  // resetEffects
+  removeSubmitEventListener();
+  imgUploadPreviewImg.removeEventListener('load', handleImageUpload);
 };
 
 // клик на пиктограмму крестика модального окна редактора изображений (вызов закрытия окна)
@@ -60,41 +70,22 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-/** открытие окна редактора изображений */
-const handleImageUpload = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-  runValidator();
-  runScaler();
-  runSlider();
-};
 
-const imageUploadEvent = () => {
+const addImageUploadEvent = () => {
   // выбор нового изображения (вызов открытия окна редактора изображений)
   imgUploadInput.addEventListener('change', () => {
-    // handleImageUpload();
-    // console.log(imgUploadInput.files);
     const imageFile = imgUploadInput.files[0];
     const imageSrc = URL.createObjectURL(imageFile);
-    // console.log(imgUploadPreview);
     imgUploadPreviewImg.src = imageSrc;
-    // console.log(imgUploadPreview);
-    // console.log(document.querySelector('.effects__preview'));
-    // console.log(imageSrc);
-    // console.log(previewEffects);
     previewEffects.forEach((preview) =>{
-      // console.log(preview);
-      // console.log(preview.style.backgroundImage);
       preview.style.backgroundImage = `url(${imageSrc})`;
     });
-    imgUploadPreviewImg.addEventListener('load', () => {
-      handleImageUpload();
-    }, { once: true });
+    imgUploadPreviewImg.addEventListener('load', handleImageUpload);
   });
 };
 
 
-export { imageUploadEvent };
+export { addImageUploadEvent, closeImgUploadOverlay };
 
 /**
  для отладки
