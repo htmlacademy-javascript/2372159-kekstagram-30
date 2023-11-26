@@ -31,26 +31,31 @@ const uploadFormExitButton = document.querySelector('.img-upload__cancel');
 ###################################################################### */
 
 
+/** открытие окна редактора изображений */
+const handleImageUpload = () => {
+  // console.log('добавление handleImageUpload');
+  imgUploadOverlay.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+  runValidator();
+  runScaler();
+  runSlider();
+  // console.log('тест');
+  // console.log('добавление обработчика на submit');
+  addSubmitEventListener();
+
+};
+
+
 // закрытие окна редактора изображений
 const closeImgUploadOverlay = () => {
   imgUploadOverlay.classList.add('hidden');
-  // return;
   document.querySelector('body').classList.remove('modal-open');
-  // console.log(imgUploadPreviewImg.style);
   imgUploadPreview.style = '';
-  // imgUploadPreview.reset();
-  // console.log(imgUploadPreviewImg.style);
-  // uploadForm.reset();
   removeValidatorEvents();
   destroySliderAndEvents();
   resetScaler();
-  // return;
   removeSubmitEventListener();
-
-
-  // document.querySelector('.img-upload__preview').style.filter = 'none';
-  // resetScale
-  // resetEffects
+  imgUploadPreviewImg.removeEventListener('load', handleImageUpload);
 };
 
 // клик на пиктограмму крестика модального окна редактора изображений (вызов закрытия окна)
@@ -66,40 +71,16 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-/** открытие окна редактора изображений */
-const handleImageUpload = () => {
-  // console.log('добавление handleImageUpload');
-  imgUploadOverlay.classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-  runValidator();
-  runScaler();
-  runSlider();
-  // console.log('тест');
-  // console.log('добавление обработчика на submit');
-  addSubmitEventListener();
-
-};
-
 const addImageUploadEvent = () => {
   // выбор нового изображения (вызов открытия окна редактора изображений)
   imgUploadInput.addEventListener('change', () => {
-    // handleImageUpload();
-    // console.log(imgUploadInput.files);
     const imageFile = imgUploadInput.files[0];
     const imageSrc = URL.createObjectURL(imageFile);
-    // console.log(imgUploadPreview);
     imgUploadPreviewImg.src = imageSrc;
-    // console.log(imgUploadPreview);
-    // console.log(document.querySelector('.effects__preview'));
-    // console.log(imageSrc);
-    // console.log(previewEffects);
     previewEffects.forEach((preview) =>{
-      // console.log(preview);
-      // console.log(preview.style.backgroundImage);
       preview.style.backgroundImage = `url(${imageSrc})`;
     });
-    // console.log('добавление handleImageUpload');
-    imgUploadPreviewImg.addEventListener('load', handleImageUpload, { once: true });
+    imgUploadPreviewImg.addEventListener('load', handleImageUpload);
   });
 };
 
